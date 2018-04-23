@@ -1,6 +1,6 @@
 // NPM Dependencies
-let express = require('express')
-let bodyParser = require('body-parser');
+const express = require('express')
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 //Project dependencies
@@ -12,6 +12,7 @@ const readingRoutes = require('../routes/reading');
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json()); // support json encoded bodies
+app.use(express.static('public'));
 const port = process.env.port || 3000;
 
 

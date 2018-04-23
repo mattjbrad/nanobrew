@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 router.get("/", (req, res)=>{
-    res.send('hello from the router');
+    res.redirect('/index.html');
+});
+
+router.get("/index", (req, res)=>{
+    res.redirect('/index.html');
 });
 
 router.get("*", (req, res)=>{
