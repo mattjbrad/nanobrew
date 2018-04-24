@@ -16,7 +16,8 @@ router.get('/brews', (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.send(brews);
+            // res.send(brews);
+            res.render('brews', {brews});
         }
     });
 });
@@ -37,6 +38,7 @@ router.get('/brews/:id', (req, res) => {
 });
 
 router.post('/brews', (req, res) => {
+
     Brew.create(req.body, (err, brew) => {
         if (err) {
             console.log(err);

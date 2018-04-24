@@ -1,0 +1,46 @@
+<% include ./partials/head %>
+<% include ./partials/nav %>
+
+    <div class="container">
+            <header class="jumbotron">
+                    <div class="container">
+                <h2>Manage Brews</h2>
+                <p>Got all the ingredients and ready to start a brew? Click on the button below to get started or manage your current brews below</p>
+                <p><a class="btn btn btn-outline-light" href="/brews/new">Add New Brew</a></p>
+                </div>
+                </header>
+
+        <div class="row text-center">
+            <% brews.forEach((brew) => { %>
+                <div class="col-md-4 col-sm-6 brewBox">
+                    <div class="brewDetails">
+                        <a href="/brews/<%= brew.id%>" class="brewLink">
+                            <%= brew.name %>
+                        </a>
+                        <p>
+                            <span class="bold">Temp Range: </span> <%= brew.minTemp %> to <%= brew.maxTemp %>
+                        </p>
+                        <p>
+                            <%= brew.topic %>
+                        </p>
+                        <a href="/brews/<%= brew.id%>">
+                            <button type="button" class="btn btn-outline-info">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </a>
+                        <button type="button" class="btn btn-outline-warning">
+                            <i class="fas fa-ban"></i>
+                        </button>
+                        <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
+                            <a>
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>    
+<% include ./partials/foot %>
