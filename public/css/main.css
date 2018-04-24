@@ -26,12 +26,17 @@ h1{
     font-size:6em;
 }
 
+h2{
+    font-weight: 700;
+    font-size:3em;
+}
+
 h3{
     text-shadow: 1px 1px 1px grey;
     font-weight: 700;
 }
 
-h1,h3{
+h1,h2,h3{
     text-shadow: 0px 4px 3px rgba(0,0,0,0.7);
     color: #ff8000;
     text-align: center;
@@ -43,26 +48,39 @@ hr{
     border-bottom: 1px solid rgba(0,0,0,0.2);
 }
 
+p.blurb{
+    padding:15px;
+}
+
 /* Navbar related stuff */
 .navbar{
     margin:0px;
 }
 
-.navbar-inverse .navbar-nav>li>a{
-    color:lightblue;
+#main-nav{
+    background: #1d2430;
+    margin-bottom: 20px;
 }
-.navbar-inverse .navbar-header .navbar-brand{
-    color:lightblue;
+
+.navbar-dark .navbar-nav .nav-link{
+    color: lightblue;
 }
-.navbar-inverse{
-    background: #141921;
-    color: white;
+
+.navbar-dark .navbar-nav .nav-link:hover{
+    color: #fff;
+}
+
+.navbar-dark .navbar-nav .active>.nav-link {
+    color:#fff;
+}
+
+.navbar-dark .navbar-brand {
+    color:lightblue;
 }
 
 /* Main page content */
 body{
     font-family: 'Montserrat', sans-serif;
-    font-family: 'Comfortaa', cursive;
     background: #141921;
 }
 
@@ -106,4 +124,64 @@ p{
     width: 80%;
     margin: 0 auto;
     display: inline-block;
+}
+
+.brewBox {
+    margin-top : 15px;
+    margin-bottom : 15px;
+}
+
+.brewDetails{    
+    border: rgba(102, 204, 255, 0.3);
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    max-width: 300px;
+    margin: auto;
+    padding:10px;
+    box-shadow: 4px 4px 3px rgba(0,0,0,0.7);
+    background-color: rgba(57, 72, 96, 0.1);
+}
+
+.row{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.jumbotron{
+    background-color: rgba(57, 72, 96, 0.3);
+    padding:20px 10px 20px 10px;
+
+    border: rgba(102, 204, 255, 0.3);
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 3px rgba(0,0,0,0.7);
+}
+
+.brewLink{
+    font-size: 150%;
+    color:#3691b0;
+    border-bottom: 1px solid #3691b0;
+    padding-bottom: 2px;
+}
+
+.brewLink:hover{
+    color:#FFF;
+    text-decoration: unset;
+    border-bottom: 1px solid #FFF;
+}
+
+#delete-form{
+    display: inline;
+    margin:0px;
+    padding:0px;
+}
+
+.btn{
+    margin:3px;
+}
+
+.bold{
+    font-weight:700;
 }
