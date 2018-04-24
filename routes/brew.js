@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let Brew = require('../models/brew');
+let moment = require('moment');
 
 let data = {
 	name		: "Postman Brew",
@@ -17,13 +18,13 @@ router.get('/brews', (req, res) => {
             res.send("Something went wrong");
         } else {
             // res.send(brews);
-            res.render('brews', {brews});
+            res.render('brews', {brews, moment});
         }
     });
 });
 
 router.get('/brews/new', (req, res) => {
-    res.send('form for new brew');
+    res.render('new');
 });
 
 router.get('/brews/:id', (req, res) => {
@@ -38,13 +39,14 @@ router.get('/brews/:id', (req, res) => {
 });
 
 router.post('/brews', (req, res) => {
-
     Brew.create(req.body, (err, brew) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.send(brew);
+            brew.topic = `/beer/readings/${brew._id}`;
+            brew.save();
+            res.redirect('brews');
         }
     });
 });
@@ -70,7 +72,7 @@ router.delete('/brews/:id', (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.send(brew);
+            res.redirect('/brews');
         }
     });
 });

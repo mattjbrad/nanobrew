@@ -2,13 +2,13 @@
 <% include ./partials/nav %>
 
     <div class="container">
-            <header class="jumbotron">
-                    <div class="container">
+        <header class="jumbotron">
+            <div class="container">
                 <h2>Manage Brews</h2>
                 <p>Got all the ingredients and ready to start a brew? Click on the button below to get started or manage your current brews below</p>
                 <p><a class="btn btn btn-outline-light" href="/brews/new">Add New Brew</a></p>
-                </div>
-                </header>
+            </div>
+        </header>
 
         <div class="row text-center">
             <% brews.forEach((brew) => { %>
@@ -21,6 +21,9 @@
                             <span class="bold">Temp Range: </span> <%= brew.minTemp %> to <%= brew.maxTemp %>
                         </p>
                         <p>
+                            <span class="bold">Created: </span> <%= new moment(brew.created).format('MMMM Do YYYY') %> %>
+                        </p>
+                        <p class="scroll">
                             <%= brew.topic %>
                         </p>
                         <a href="/brews/<%= brew.id%>">
