@@ -82,6 +82,7 @@ p.blurb{
 body{
     font-family: 'Montserrat', sans-serif;
     background: #141921;
+    color:lightblue;
 }
 
 /* Actions page */
@@ -186,3 +187,19 @@ p{
 .bold{
     font-weight:700;
 }
+
+form.brew-form{
+    max-width: 500px;
+    margin: auto;
+}
+input.form-half{
+    width:45%;
+    margin: auto;
+}
+
+.scroll { 
+    height: 40px;
+    max-width: 300px;
+    overflow-x: scroll;
+    white-space: nowrap;
+ }
