@@ -7,7 +7,7 @@ var brewSchema = mongoose.Schema({
     name                : {type: String, required: true},
     minTemp             : {type: Number, required: true},
     maxTemp             : {type: Number, required: true},
-    topic               : {type: String, required: true},
+    topic               : {type: String},
     created             : {type: Number, default:new moment()},
     finished            : Number,
     stopped             : false,
