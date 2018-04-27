@@ -15,6 +15,7 @@
     "method-override": "^2.3.10",
     "moment": "^2.22.1",
     "mongoose": "^5.0.15",
+    "mosca": "^2.8.1",
     "semantic-ui": "^2.3.1"
   },
   "devDependencies": {
