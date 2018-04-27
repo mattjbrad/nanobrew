@@ -34,6 +34,11 @@
                         <button type="button" class="btn btn-outline-warning">
                             <i class="fas fa-ban"></i>
                         </button>
+                        <a href="/<%=brew.id%>/graph">
+                            <button class="btn btn-outline-light">
+                                <i class="fas fa-chart-line"></i>
+                            </button>
+                        </a>
                         <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
                             <a>
                                 <button type="submit" class="btn btn-outline-danger">

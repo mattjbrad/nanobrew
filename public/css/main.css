@@ -188,10 +188,11 @@ p{
     font-weight:700;
 }
 
-form.brew-form{
+div.brew-form{
     max-width: 500px;
     margin: auto;
 }
+
 input.form-half{
     width:45%;
     margin: auto;

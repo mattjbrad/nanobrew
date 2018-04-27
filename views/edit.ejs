@@ -1,0 +1,51 @@
+<% include ./partials/head %>
+<% include ./partials/nav %>
+
+<div class="container">
+    <header class="jumbotron">
+            <div class="container">
+                <h2>Edit your Brew</h2>
+                <p>Make your changes below</p>
+            </div>
+        </header>
+    <div class="row">
+        <div class="col">
+            <div class="brew-form brewDetails">
+                <form action="/brews/<%=brew._id%>?_method=PUT" method="post">
+                    <div class="form-group">
+                        <label for="name">Brew Name</label>
+                        <input type="text" class="form-control" name="name" id="name" aria-describedby="name" value="<%=brew.name%>">
+                    </div>
+                    <div class="form-group">
+                        <label for="min">Temperature Range</label>
+                        <div class="row">
+                            <input type="number" class="form-control form-half" name="minTemp" id="min" value="<%=brew.minTemp%>" step="0.25">
+                            <input type="number" class="form-control form-half" name="maxTemp" id="max" value="<%=brew.maxTemp%>" step="0.25">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="topic">Topic</label>
+                        <input class="form-control" type="text" readonly value="<%=brew.topic%>">
+                    </div>
+                    <div class="form-group">
+                        <label for="created">Created on</label>
+                        <input class="form-control" type="text" readonly value="<%=new moment(brew.created).format('h:mm a, MMMM Do YYYY')%>">
+                    </div>
+                    <div style="display: inline-block">
+                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <a href="/<%=brew.id%>/graph"><button class="btn btn-outline-light"><i class="fas fa-chart-line"></i></button></a>
+                </form>
+                        <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
+                            <a>
+                                <button type="submit" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </a>
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ./partials/foot %>
