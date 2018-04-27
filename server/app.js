@@ -11,6 +11,7 @@ var Reading = require('../models/reading');
 const indexRoutes = require('../routes/index');
 const brewRoutes = require('../routes/brew');
 const readingRoutes = require('../routes/reading');
+var mosca = require('./mosca');
 
 mongoose.connect('mongodb://localhost:27017/nanobrew');
 

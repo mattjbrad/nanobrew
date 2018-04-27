@@ -11,7 +11,6 @@ router.get('/brews/:brewId/reading', (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            console.log(brew);
             res.send(brew.readings);
         }
     });

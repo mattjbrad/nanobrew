@@ -23,7 +23,7 @@ let moscaSettings = {
 let server = new mosca.Server(moscaSettings);
 
 server.on('ready', ()=>{
-    console.log('Mosca Started');
+    console.log('MQTT Broker Started');
 });
 
 server.on('published', (packet, client) => {
@@ -38,7 +38,6 @@ server.on('published', (packet, client) => {
                     console.log(err);
                     res.send("Something went wrong");
                 } else {
-                    console.log(brew);
                     Reading.create(reading, (err, reading) => {
                         if (err) {
                             console.log(err);
@@ -56,6 +55,7 @@ server.on('published', (packet, client) => {
     }
 });
 
+module.exports = server;
 // server.on('clientConnected', function(client){
 //     console.log('client connected', client.id);
 // });
