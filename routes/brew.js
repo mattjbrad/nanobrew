@@ -33,7 +33,7 @@ router.get('/brews/:id', (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.send(brew);
+            res.render('edit', {brew, moment});
         }
     });
 });
@@ -61,7 +61,7 @@ router.put('/brews/:id', (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.send(brew);
+            res.redirect(`/brews`);
         }
     });
 });
