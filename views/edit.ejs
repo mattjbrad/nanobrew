@@ -1,4 +1,5 @@
 <% include ./partials/head %>
+<script src="http://wzrd.in/standalone/uuid%2Fv4@latest"></script>
 <% include ./partials/nav %>
 
 <div class="container">
@@ -11,6 +12,9 @@
     <div class="row">
         <div class="col">
             <div class="brew-form brewDetails">
+                <h3>
+                    Brew Details
+                </h3>
                 <form action="/brews/<%=brew._id%>?_method=PUT" method="post">
                     <div class="form-group">
                         <label for="name">Brew Name</label>
@@ -35,17 +39,50 @@
                         <button type="submit" class="btn btn-outline-primary">Submit</button>
                 </form>
                 <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
-                        <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
-                            <a>
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </a>
-                        </form>
+                    <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
+                        <a>
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </a>
                     </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="brew-form brewDetails">
+                    <h3>
+                        Heat Control
+                    </h3>
+                    <div style="display:grid">
+                        <p>
+                            1. Login to your TP Link Account
+                        </p>
+                        <div>
+                            <div class="form-group">
+                                <input type="text" name="email" id="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" class="form-control">
+                            </div>
+                            <button  class="btn btn-outline-info" onclick="tpLogin();">Login</button>
+                        </div>
+                        <p>
+                            2. Select a device to control
+                        </p>
+                        <a href="" class="btn btn-outline-warning">Generate Token</a>
+                        <p>
+                            3. Test Control of the device
+                        </p>
+                        <a href="" class="btn btn-outline-success">Test Connection</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script src="/js/tpLink/tplink.js"></script>
 
 <% include ./partials/foot %>
