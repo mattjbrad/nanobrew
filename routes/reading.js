@@ -5,13 +5,14 @@ let Brew = require('../models/brew');
 let Reading = require('../models/reading');
 
 
-router.get('/brews/:brewId/reading', (req, res) => {
+router.get('/brews/:brewId/chart/reading', (req, res) => {
     Brew.findOne({_id:req.params.brewId}).populate("readings").exec((err, brew) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.send(brew.readings);
+            console.log(brew);
+            res.send(brew);
         }
     });
 });

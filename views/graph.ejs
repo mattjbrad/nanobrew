@@ -1,0 +1,21 @@
+<% include ./partials/head %>
+<script src="/js/chart/Chart.min.js"></script>
+<script src="/js/chart/chartjs-plugin-annotation.min.js"></script>
+<% include ./partials/nav %>
+
+    <div class="container">
+        <header class="jumbotron">
+            <div class="container">
+                <h2>Temperature Tracking</h2>
+                <p>See how the brew is progressing through it's fermentation</p>
+            </div>
+        </header>
+
+        <div class="row text-center">
+            <div class="col">
+                <canvas id="tempChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="/js/chart.js"></script>
+<% include ./partials/foot %>

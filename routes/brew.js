@@ -55,6 +55,10 @@ router.get('/brews/:id/edit', (req, res) => {
     res.send(`form to edit specific brew ${req.params.id}`);
 });
 
+router.get('/brews/:id/chart', (req, res) => {
+    res.render('graph');
+});
+
 router.put('/brews/:id', (req, res) => {
     Brew.findByIdAndUpdate(req.params.id, req.body, (err, brew) => {
         if (err) {
