@@ -204,3 +204,7 @@ input.form-half{
     overflow-x: scroll;
     white-space: nowrap;
  }
+
+ #tempChart{
+     height:200px;
+ }

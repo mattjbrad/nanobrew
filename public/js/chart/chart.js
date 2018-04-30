@@ -16,10 +16,10 @@ var refresh_data = function() {
       data: {
           labels: graphData.labels,
           datasets: [{
-              label: 'Beer Temp',
+              label: 'Temperature',
               data: graphData.points,
               borderColor: "rgba(77,184,255,0.9)",
-              radius:1
+              radius:3
           }]
       },
       options: {
@@ -31,17 +31,15 @@ var refresh_data = function() {
         scales: {
           xAxes: [{
             ticks:{
-              fontColor: "white",
-              callback: function(value) {
-                return new Date(value).toLocaleDateString('en-UK', {hour:'numeric', minute:'numeric'});
-              },
+              fontColor: "white"
             },
             gridLines:{
               color:"rgba(255,255,255,0.1)"
             },
+            type:'time',
             time: {
               displayFormats: {
-                minute: 'h:mm:ss a'
+                hour: 'hA'
               }
             }
           }],
