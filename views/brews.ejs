@@ -26,18 +26,14 @@
                         <p class="scroll">
                             <%= brew.topic %>
                         </p>
-                        <a href="/brews/<%= brew.id%>">
-                            <button type="button" class="btn btn-outline-info">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                        <a href="/brews/<%= brew.id%>" class="btn btn-outline-info">
+                            <i class="fas fa-edit"></i>
                         </a>
-                        <button type="button" class="btn btn-outline-warning">
+                        <a href="/stop" class="btn btn-outline-warning">
                             <i class="fas fa-ban"></i>
-                        </button>
-                        <a href="/brews/<%=brew.id%>/graph">
-                            <button class="btn btn-outline-light">
-                                <i class="fas fa-chart-line"></i>
-                            </button>
+                        </a>
+                        <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light">
+                            <i class="fas fa-chart-line"></i>
                         </a>
                         <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
                             <a>

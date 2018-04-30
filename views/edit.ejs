@@ -33,8 +33,8 @@
                     </div>
                     <div style="display: inline-block">
                         <button type="submit" class="btn btn-outline-primary">Submit</button>
-                        <a href="/<%=brew.id%>/graph"><button class="btn btn-outline-light"><i class="fas fa-chart-line"></i></button></a>
                 </form>
+                <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
                         <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
                             <a>
                                 <button type="submit" class="btn btn-outline-danger">
