@@ -55,7 +55,7 @@ router.get('/brews/:id/edit', (req, res) => {
     res.send(`form to edit specific brew ${req.params.id}`);
 });
 
-router.get('/brews/:id/chart', (req, res) => {
+router.get('/brews/:id/graph', (req, res) => {
     res.render('graph');
 });
 
