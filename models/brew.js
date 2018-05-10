@@ -14,7 +14,8 @@ var brewSchema = new mongoose.Schema({
     readings            : [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Reading"
-    }]
+    }],
+    devices             : []
 });
 
 // create the model for users and expose it to our app

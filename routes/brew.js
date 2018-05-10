@@ -3,21 +3,12 @@ let router = express.Router();
 let Brew = require('../models/brew');
 let moment = require('moment');
 
-let data = {
-	name		: "Postman Brew",
-	minTemp		: 20,
-	maxTemp		: 22,
-	topic		: "/beer/readings/topic",
-	inProgress	: false
-};
-
 router.get('/brews', (req, res) => {
     Brew.find({}, (err, brews) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            // res.send(brews);
             res.render('brews', {brews, moment});
         }
     });

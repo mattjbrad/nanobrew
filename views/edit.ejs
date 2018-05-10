@@ -57,26 +57,49 @@
                         Heat Control
                     </h3>
                     <div style="display:grid">
-                        <p>
-                            1. Login to your TP Link Account
-                        </p>
-                        <div>
-                            <div class="form-group">
-                                <input type="text" name="email" id="email" class="form-control">
+                    <% if (!brew.token) { %>
+                        <div id="login-div">
+                            <p>
+                                1. Login to your TP Link Account
+                            </p>
+                            <div id="login-form">
+                                <div class="form-group">
+                                    <input type="text" name="email" id="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" class="form-control">
+                                </div>
+                                <button  class="btn btn-outline-info" onclick="tpLogin();">Login</button>
                             </div>
-                            <div class="form-group">
-                                <input type="password" name="password" id="password" class="form-control">
-                            </div>
-                            <button  class="btn btn-outline-info" onclick="tpLogin();">Login</button>
                         </div>
-                        <p>
-                            2. Select a device to control
-                        </p>
-                        <a href="" class="btn btn-outline-warning">Generate Token</a>
-                        <p>
-                            3. Test Control of the device
-                        </p>
-                        <a href="" class="btn btn-outline-success">Test Connection</a>
+                    <% } else { %>
+                        <p>Logged in like a dream</p>
+                        <button  class="btn btn-outline-info" onclick="">Regenerate Token</button>
+                    <% } %>
+                    <% if (!brew.deviceId) { %>
+                        <div id="device-div">
+                            <p>
+                                2. Select a device to control
+                            </p>
+                            <div id="select-device">
+                                <div class="form-group">
+                                    <select class="form-control" name="devices" id="devices">
+                                        <option value="null"></option>
+                                    </select>
+                                </div>
+                                <button onClick="setDevice();" class="btn btn-outline-warning">Select</button>
+                            </div>
+                        </div>
+                    <% } else { %>
+                       <p> Device Selected </p>
+                       <button onClick="" class="btn btn-outline-warning">Change Device</button>
+                    <% } %>
+                        <div id="test-div" style="display:grid">
+                            <p>
+                                3. Test Control of the device
+                            </p>
+                            <button onClick="testDevice();" class="btn btn-outline-success">Test Connection</button>
+                        </div>
                     </div>
                 </div>
             </div>

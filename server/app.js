@@ -11,6 +11,8 @@ var Reading = require('../models/reading');
 const indexRoutes = require('../routes/index');
 const brewRoutes = require('../routes/brew');
 const readingRoutes = require('../routes/reading');
+const powerRoutes = require('../routes/tplink');
+
 var mosca = require('./mosca');
 
 mongoose.connect('mongodb://localhost:27017/nanobrew');
@@ -28,6 +30,7 @@ const port = process.env.port || 3000;
 //Import routes for brews, readings and other
 app.use(brewRoutes);
 app.use(readingRoutes);
+app.use(powerRoutes);
 app.use(indexRoutes);
 
 //Start the server
