@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 // define the schema for our user model
-var readingSchema = mongoose.Schema({
-        time        : {type: Number, default:new Date().getTime()},
+var readingSchema = new mongoose.Schema({
+        time        : {type: Date, default: Date.now},
         temp        : {type: Number, required:true}
 });
 

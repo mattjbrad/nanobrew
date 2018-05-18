@@ -1,37 +1,28 @@
 var request = require('request');
 const mosca = require('mosca');
 let mongoose = require('mongoose');
+let needle = require('needle');
 
 let Brew = require('../models/brew');
 let Reading = require('../models/reading');
 
+let heating = 0;
+
 mongoose.connect('mongodb://localhost:27017/nanobrew');
 
-let pubsubsettings = {
-    type: 'mqtt',
-    json: false,
-    mqtt: require('mqtt'),
-    host: '127.0.0.1',
-    port: 1883
-  };
-
-let moscaSettings = {
-    port : 1884,
-    backend: pubsubsettings
-};
-
+let moscaSettings = require('../config/mqtt');
 let server = new mosca.Server(moscaSettings);
 
 server.on('ready', ()=>{
-    console.log('MQTT Broker Started');
+    console.log('MQTT Broker Successfully Connected');
 });
 
 server.on('published', (packet, client) => {
     if (packet.topic.includes('/beer/readings')){
-        var payloadString = packet.payload.toString('utf-8');
+        let payloadString = packet.payload.toString('utf-8');
         try {
-            var reading = JSON.parse(payloadString);
-            var id = packet.topic.substring(15);
+            let reading = JSON.parse(payloadString);
+            let id = packet.topic.substring(15);
 
             Brew.findById(id, (err, brew) => {
                 if (err) {
@@ -45,157 +36,54 @@ server.on('published', (packet, client) => {
                         } else {
                             brew.readings.push(reading);
                             brew.save();
+                            checkLimits(brew, reading.temp);
                         }
                     });
                 }
             });
+
         } catch(e) {
             console.log(e);
         }    
     }
 });
 
+function checkLimits(brew, temp){
+
+    let minTemp = brew.minTemp;
+    let maxTemp = brew.maxTemp;
+    let ideal = minTemp+((maxTemp-minTemp)/2);
+
+    if(temp<=ideal){
+        triggerSwitch(brew.token, brew.deviceId, 1);
+    }
+
+    if(temp>ideal){
+        triggerSwitch(brew.token, brew.deviceId, 0);
+    }
+}
+
+function triggerSwitch(token, deviceId, power){
+
+    let url = `https://eu-wap.tplinkcloud.com/?token=${token}`;
+    let options = {
+		headers: { 'Content-Type': 'application/json' }
+    };
+    let body = {
+        "method":"passthrough",
+         "params":{
+         "deviceId":deviceId,
+         "requestData":"{\"system\":{\"set_relay_state\":{\"state\":"+power+"}}}"
+         }
+    };
+
+	needle.post(url, body, options,
+		function (err, response){
+            if(err){     
+                console.log("something went wrong");
+                console.log(err);
+            }
+		});
+};
+
 module.exports = server;
-// server.on('clientConnected', function(client){
-//     console.log('client connected', client.id);
-// });
-    
-
-// module.exports = function(server, mongo) {
-
-// 	//{"d": { "temp" : 25.0}} - example message that works with mqtt spy
-
-// 	//{"d": { "topic":"/beer/readings/matt", "temp" : 25.0, "date":"2014-07-08T09:02:21.377"}}
-
-// 	server.on('ready', setup);
-
-// 	function setup() {
-// 		initialiseSwitch();
-// 	};
-
-// 	server.on('clientConnected', function(client){
-// 		console.log('client connected', client.id);
-// 	});
-
-// 	server.on('published', readingReceived);
-
-// 	function readingReceived(packet, client){
-	
-// 		let topic = packet.topic;
-
-// 		if(topic.includes('/beer/readings/')){
-
-// 			var reading = packet.payload.toString('utf8');
-// 			var jsonReading = JSON.parse(reading);
-
-// 			var document  = { reading : {
-// 								topic : topic,
-// 								date : new Date(),
-// 								temp: jsonReading.d.temp }
-// 							};
-// 			var temp = document.reading.temp;
-
-// 			//This needs to find the current brew as well!!!!!
-
-// 			let query = {'data.current':true, 'data.topic':topic};
-
-// 			Brew.findOne(query).exec()
-// 				.then((result) => checkLimits(result, temp))
-// 				.catch((err) => { return err; }
-// 			);
-
-// 			mongo.insertReading('brewData', document);
-			
-// 		}
-// 	}
-
-// 	function checkLimits(result, temp){
-
-// 		let minTemp = result.data.minTemp;
-// 		let maxTemp = result.data.maxTemp;
-
-// 		var ideal = minTemp+((maxTemp-minTemp)/2);
-
-// 		if(temp<=ideal&&heating===false){
-// 			triggerSwitch(1);
-// 		}
-
-// 		if(temp>ideal&&heating===true){
-// 			triggerSwitch(0);
-// 		}
-// 	}
-
-// }
-
-
-// function initialiseSwitch(){
-
-// 	var options = {
-// 		headers: { 'Content-Type': 'application/json' }
-// 	};
-// 	needle.post(tpConfig.tpUrl+'?token='+tpConfig.token,
-// 		{
-// 			"method":"passthrough",
-// 			 "params":{
-// 			 "deviceId":"\""+tpConfig.deviceId+"\"",
-// 			 "requestData":"{\"system\":{\"set_relay_state\":{\"state\":0}}}"
-// 			 }
-// 		}, options,
-// 		function (err, response){
-
-// 			if(!err && response.statusCode==200){
-// 				console.log('Wifi Plug initialised, power set to off');
-// 			}
-
-// 	});
-
-// }
-
-// function triggerSwitch(power){
-
-// 	var options = {
-// 		headers: { 'Content-Type': 'application/json' }
-// 	};
-// 	needle.post(tpConfig.tpUrl+'?token='+tpConfig.token,
-// 		{
-// 			"method":"passthrough",
-// 			 "params":{
-// 			 "deviceId":"\""+tpConfig.deviceId+"\"",
-// 			 "requestData":"{\"system\":{\"set_relay_state\":{\"state\":"+power+"}}}"
-// 			 }
-// 		}, options,
-// 		function (err, response){
-
-// 			if(!err && response.statusCode==200){
-// 				heating = !heating;
-// 				console.log('switch triggered, set to '+heating);
-// 			}
-// 		}
-// 	}
-
-// function newToken(email, password, uuid){
-
-// 	let options = {
-// 		headers: { 'Content-Type': 'application/json' }
-// 	};
-// 	let body = {
-// 		"method": "login",
-// 		"params": {
-// 		"appType": "Kasa_Android",
-// 		"cloudUserName": ""+email+"",
-// 		"cloudPassword": ""+password+"",
-// 		"terminalUUID": ""+uuid_gen()+""
-// 		}
-// 	};
-
-// 	console.log(body);
-
-// 	needle.post('https://wap.tplinkcloud.com', body , options,
-// 		function(err, response){
-// 			let token = response.body.token;
-// 		});
-// }
-
-// }
-
-	
