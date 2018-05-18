@@ -6,8 +6,6 @@ let needle = require('needle');
 let Brew = require('../models/brew');
 let Reading = require('../models/reading');
 
-let heating = 0;
-
 mongoose.connect('mongodb://localhost:27017/nanobrew');
 
 let moscaSettings = require('../config/mqtt');
