@@ -25,14 +25,14 @@ router.post('/brews/:brewId/login', (req, res) => {
             (err, result) => {
                 if (result.statusCode === 200){
                     var jsonResponse = JSON.parse(result.body);
-                    console.log
-                    Brew.findByIdAndUpdate(req.params.brewId, {token:jsonResponse.result.token}, (err, brew) => {
+                    let token = { token : jsonResponse.result.token };
+                    Brew.findByIdAndUpdate(req.params.brewId, token, (err, brew) => {
                         if (err) {
                             console.log(err);
                             res.send('Something went wrong logging in, try again please');
                         } else {
                             brew.save();
-                            res.send({token: brew.token});                        
+                            res.send(token);                        
                         }
                     });
                 }
@@ -67,6 +67,21 @@ router.get('/brews/:brewId/devices', (req, res) => {
                     res.send(data);
                 }
             })
+        }
+    });
+});
+
+router.get('/brews/:brewId/devices/reset', (req, res) => {
+    Brew.findByIdAndUpdate(req.params.brewId, {
+        token : '',
+        deviceId:''
+    }, (err, brew) => {
+        if (err) {
+            console.log(err);
+            res.send("Something went wrong");
+        } else {
+            console.log(brew);
+            res.send(brew);
         }
     });
 });

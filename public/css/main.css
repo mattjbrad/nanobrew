@@ -203,3 +203,7 @@ input.form-half{
     overflow-x: scroll;
     white-space: nowrap;
  }
+
+ .wide{
+     display:grid;
+ }
