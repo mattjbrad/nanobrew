@@ -72,9 +72,7 @@ testConnection = function(){
 }
 
 toggleHeat = function(){
-    var button = $('toggle-button');
-    button.removeClass('fa-toggle-off');
-    button.addClass('fa-toggle-on');
+    $('heat-control').toggle()
 }
 
 guiLoggedIn = function(){
