@@ -51,6 +51,8 @@ hr{
 
 p.blurb{
     padding:15px;
+    font-size:0.9em;
+    text-align:justify;
 }
 
 /* Navbar related stuff */
