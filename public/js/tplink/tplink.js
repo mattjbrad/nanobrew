@@ -67,6 +67,16 @@ setDevice = function(){
     }
 }
 
+testConnection = function(){
+    //TODO
+}
+
+toggleHeat = function(){
+    var button = $('toggle-button');
+    button.removeClass('fa-toggle-off');
+    button.addClass('fa-toggle-on');
+}
+
 guiLoggedIn = function(){
     $('#step1-login').hide();
     $('#step1-logged-in').show();

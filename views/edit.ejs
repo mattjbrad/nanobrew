@@ -9,7 +9,7 @@
             </div>
         </header>
     <div class="row">
-        <div class="col">
+        <div class="col-lg-6">
             <div class="brew-form brewDetails">
                 <h3>
                     Brew Details
@@ -43,8 +43,9 @@
                         <input id="deviceId" class="form-control" type="text" readonly value="<%=brew.deviceId%>">
                     </div>
                     <div style="display: inline-block">
-                        <button type="submit" class="btn btn-outline-primary">Submit</button>
+                        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-check"></i></button>
                 </form>
+                <a id="toggle-button" class="btn btn-outline-warning" data-toggle="collapse" href="#heat-control"><i class="fas fa-cogs"></i></a>
                 <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
                     <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
                         <a>
@@ -56,18 +57,17 @@
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="brew-form brewDetails">
+            <div class="col-lg-6">
+                <div class="brew-form brewDetails collapse" id="heat-control">
                     <h3>
                         Heat Control
                     </h3>
                     <div style="display:grid">
                         <div id="step1">
                             <div id="step1-login">
+                                <h4>Step 1</h4>
                                 <p>
-                                    1. Login to your TP Link Account
+                                    Login to your TP Link Account
                                 </p>
                                 <div id="login-form" class="wide">
                                     <div class="form-group">
@@ -80,14 +80,16 @@
                                 </div>
                             </div>
                             <div id="step1-logged-in" style="display:none;" class="wide">
-                                <p>1. Logged in like a dream</p>
+                                <h4>Step 1</h4>
+                                <p>Logged in like a dream</p>
                                 <button class="btn btn-outline-info wide" onclick="resetToken()">Reset Token</button>
                             </div>
                         </div>
                         <div id="step2">
                             <div id="step2-select">
+                                <h4>Step 2</h4>
                                 <p>
-                                    2. Select a device to control
+                                    Select a device to control
                                 </p>
                                 <div id="select-device" class="wide">
                                     <div class="form-group">
@@ -99,8 +101,18 @@
                                 </div>
                             </div>
                             <div id="step2-selected" style="display:none" class="wide">
-                                <p>2. Device has been selected</p>
+                                <h4>Step 2</h4>
+                                <p>Device has been selected</p>
                                 <button class="btn btn-outline-warning wide" onclick="guiChooseDevice()">Change Device</button>
+                            </div>
+                        </div>
+                        <div id="step3">
+                            <div id="step3-test" class="wide">
+                                <h4>Step 3</h4>
+                                <p>
+                                    Test the device can be controlled
+                                </p>
+                                <button onClick="testConnection();" class="btn btn-outline-success">Test Connection</button>
                             </div>
                         </div>
                     </div>
