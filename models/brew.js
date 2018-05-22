@@ -8,7 +8,7 @@ var brewSchema = new mongoose.Schema({
     topic               : {type: String},
     created             : {type: Number, default:new Date().getTime()},
     finished            : Number,
-    stopped             : false,
+    stopped             : {type: Boolean, default:false},
     deviceId            : String,
     token               : String,
     readings            : [{

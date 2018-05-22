@@ -21,15 +21,12 @@
                             <span class="bold">Temp Range: </span> <%= brew.minTemp %> to <%= brew.maxTemp %>
                         </p>
                         <p>
-                            <span class="bold">Created: </span> <%= new moment(brew.created).format('MMMM Do YYYY') %> %>
-                        </p>
-                        <p class="scroll">
-                            <%= brew.topic %>
+                            <span class="bold">Created: </span> <%= new moment(brew.created).format('H:mm, MMMM Do YYYY') %> %>
                         </p>
                         <a href="/brews/<%= brew.id%>" class="btn btn-outline-info">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a href="/stop" class="btn btn-outline-warning">
+                        <a href="/brews/<%=brew.id%>/stop" class="btn btn-outline-warning">
                             <i class="fas fa-ban"></i>
                         </a>
                         <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light">

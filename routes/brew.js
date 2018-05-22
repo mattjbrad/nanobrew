@@ -4,6 +4,17 @@ let Brew = require('../models/brew');
 let moment = require('moment');
 
 router.get('/brews', (req, res) => {
+    Brew.find({stopped:false}, (err, brews) => {
+        if (err) {
+            console.log(err);
+            res.send("Something went wrong");
+        } else {
+            res.render('brews', {brews, moment});
+        }
+    });
+});
+
+router.get('/brews/archive', (req, res) => {
     Brew.find({}, (err, brews) => {
         if (err) {
             console.log(err);
@@ -52,6 +63,17 @@ router.get('/brews/:id/graph', (req, res) => {
 
 router.put('/brews/:id', (req, res) => {
     Brew.findByIdAndUpdate(req.params.id, req.body, (err, brew) => {
+        if (err) {
+            console.log(err);
+            res.send("Something went wrong");
+        } else {
+            res.redirect(`/brews`);
+        }
+    });
+});
+
+router.get('/brews/:id/stop', (req, res) => {
+    Brew.findByIdAndUpdate(req.params.id, {stopped:true}, (err, brew) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
