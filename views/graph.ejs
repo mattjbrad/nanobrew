@@ -18,14 +18,26 @@
             </div>
             <div class="col-lg-4">
                 <div class="brew-form brewDetails">
-                    <h4>
+                    <h3>
                         Graph Settings
-                    </h4>
+                    </h3>
                     <p>
                         Readings for last <span id="date">1</span> hours
                     </p>
                     <input id="date-range" type="range" min="1" max="24" step="1" value="24">
                 </div>
+                <div class="brew-form brewDetails">
+                        <h3>
+                            Simulate
+                        </h3>
+                        <div class="form-group">
+                            <label for="sim-temp">Enter a temperature reading</label>
+                            <input class="form-control form-control-sm " id="sim-temp" name="sim-temp" type="number" step="0.25" value="21.0">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-outline-primary" onclick="simReading()">Send</button>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>

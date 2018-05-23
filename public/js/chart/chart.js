@@ -1,9 +1,5 @@
 var minute_refresh = 1;
 
-// $.urlParam = function(name){
-//   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-//   return results[1] || 0;
-// }
 window.onload = function() { refresh_data(); };
 
 var ctx = document.getElementById("tempChart");
@@ -64,7 +60,7 @@ var refresh_data = function() {
               mode: "horizontal",
               scaleID: "y-axis-0",
               value: data.minTemp,
-              borderColor: "rgba(166,6,6,0.9)",
+              borderColor: "rgba(251,123,6,0.9)",
               borderWidth: 2,
             },
             {
@@ -72,7 +68,7 @@ var refresh_data = function() {
               mode: "horizontal",
               scaleID: "y-axis-0",
               value: data.maxTemp,
-              borderColor: "rgba(251,123,6,0.9)",
+              borderColor: "rgba(166,6,6,0.9)",
               borderWidth: 2,
             }
           ]
@@ -103,3 +99,16 @@ transformData = function(data){
 };
 
 slider.on('change', refresh_data);
+
+simReading = function(){
+  var reading = {
+    temp: $('#sim-temp').val()
+  };
+  var url = `${window.location.pathname.slice(0,31)}/reading`;
+  var data = {
+    url:url,
+    data:reading
+  };
+
+  $.post(url, reading, refresh_data);
+}
