@@ -9,7 +9,9 @@ window.onload = function() { refresh_data(); };
 var ctx = document.getElementById("tempChart");
 var refresh_data = function() {
 
-  $.get(`${window.location.pathname}/reading`, function(data, status){
+  var getUrl = `${window.location.pathname}/reading?range=${getSliderValue()}`;
+
+  $.get(getUrl, function(data, status){
     var graphData = transformData(data.readings);
     var myChart = new Chart(ctx, {
       type: 'line',
@@ -46,8 +48,8 @@ var refresh_data = function() {
           yAxes : [{
             ticks:{
               fontColor:"white",
-              suggestedMin:18,
-              suggestedMax:27
+              suggestedMin:data.minTemp-2,
+              suggestedMax:data.maxTemp+2
             },
             gridLines:{
               color:"rgba(255,255,255,0.1)"
@@ -99,3 +101,5 @@ transformData = function(data){
     graphData.labels = labels;
     return graphData;
 };
+
+slider.on('change', refresh_data);

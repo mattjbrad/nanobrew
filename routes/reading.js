@@ -1,12 +1,20 @@
 let express = require('express');
 let router = express.Router();
+let moment = require('moment');
 
 let Brew = require('../models/brew');
 let Reading = require('../models/reading');
 
 
 router.get('/brews/:brewId/graph/reading', (req, res) => {
-    Brew.findOne({_id:req.params.brewId}).populate("readings").exec((err, brew) => {
+    
+    Brew.findOne({_id:req.params.brewId}).populate(
+        {path:'readings', 
+            match: 
+            { time : 
+                { $gte : moment().subtract(parseInt(req.query.range), 'h')}
+            }
+        }).exec((err, brew) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");

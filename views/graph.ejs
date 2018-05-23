@@ -1,6 +1,8 @@
 <% include ./partials/head %>
 <script src="/js/chart/Chart.min.js"></script>
 <script src="/js/chart/chartjs-plugin-annotation.min.js"></script>
+<link rel="stylesheet" href="/css/slider.css">
+
 <% include ./partials/nav %>
 
     <div class="container">
@@ -10,12 +12,23 @@
                 <p>See how the brew is progressing through it's fermentation</p>
             </div>
         </header>
-
         <div class="row text-center">
-            <div class="col">
-                <canvas id="tempChart" width="400" height="300"></canvas>
+            <div class="col-lg-8">
+                <canvas id="tempChart" width="300" height="250"></canvas>
+            </div>
+            <div class="col-lg-4">
+                <div class="brew-form brewDetails">
+                    <h4>
+                        Graph Settings
+                    </h4>
+                    <p>
+                        Readings for last <span id="date">1</span> hours
+                    </p>
+                    <input id="date-range" type="range" min="1" max="24" step="1" value="24">
+                </div>
             </div>
         </div>
     </div>
+    <script src="/js/slider.js"></script>
     <script src="/js/chart/chart.js"></script>
 <% include ./partials/foot %>
