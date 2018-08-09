@@ -14,21 +14,21 @@ router.get("/register", (req, res) => {
     res.render('register');
 });
 
-router.post("/register", (req, res) => {
-    const newUser = new User({email: req.body.email, password:req.body.password});
-    newUser.
-    User.register(newUser, req.body.password, function(err, user){
-        if(err){
-            req.flash("error", err.message);
-            return res.render("register");
-        }
-        passport.authenticate("local")(req, res, function(){
-           req.flash("success", "Welcome to YelpCamp " + user.username);
-           res.redirect("/campgrounds"); 
-        });
-    });
-    res.redirect('/register');
-});
+// router.post("/register", (req, res) => {
+//     const newUser = new User({email: req.body.email, password:req.body.password});
+//     User.create(newUser).then((user) =)
+//     User.register(newUser, req.body.password, function(err, user){
+//         if(err){
+//             req.flash("error", err.message);
+//             return res.render("register");
+//         }
+//         passport.authenticate("local")(req, res, function(){
+//            req.flash("success", "Welcome to YelpCamp " + user.username);
+//            res.redirect("/campgrounds"); 
+//         });
+//     });
+//     res.redirect('/register');
+// });
 
 router.get("/login", (req, res) => {
     res.render('login');
