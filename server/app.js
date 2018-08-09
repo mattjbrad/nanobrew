@@ -4,16 +4,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require("method-override");
 
-var Brew = require('../models/brew');
-var Reading = require('../models/reading');
-
 //Project dependencies
 const indexRoutes = require('../routes/index');
 const brewRoutes = require('../routes/brew');
 const readingRoutes = require('../routes/reading');
 const powerRoutes = require('../routes/tplink');
-
-var mosca = require('./mosca');
 
 mongoose.connect('mongodb://localhost:27017/nanobrew');
 
