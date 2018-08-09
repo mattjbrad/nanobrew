@@ -8,6 +8,7 @@ services:
       - "3000:3000"
     links:
       - mongo
+      - mqtt
   mongo:
     container_name: mongo
     image: mongo
@@ -15,3 +16,8 @@ services:
       - ./data:/data/db
     ports:
       - "27017:27017"
+  mqtt:
+      container_name: mqtt
+      image: eclipse-mosquitto
+      ports:
+        - "1884:1884"
