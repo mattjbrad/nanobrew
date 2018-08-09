@@ -1,5 +1,8 @@
-/* Main Image on frontpage stuff */
+html, body {
+    height: 100%;
+}
 
+/* Main Image on frontpage stuff */
 .headerImage{
     background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../img/beer.jpg");
     background-size:cover;
@@ -224,4 +227,9 @@ input.form-half{
 .toggle-handle {
     background-color: white;
     border: thin rgba(0, 0, 0, .25) solid;
+}
+
+.centreMessage {
+    height: 90%;
+    margin-top: 20%;
 }
