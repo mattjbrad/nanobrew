@@ -56,6 +56,7 @@ p.blurb{
     padding:15px;
     font-size:0.9em;
     text-align:justify;
+    margin-top:0px;
 }
 
 /* Navbar related stuff */
@@ -94,8 +95,9 @@ body{
 h4{
     color: lightblue;
     margin-top:20px;
-    font-size:1.5em;
+    font-size:1.3em;
     font-weight: 700;
+    text-align: center;
 }
 
 h3.actions{
@@ -232,4 +234,13 @@ input.form-half{
 .centreMessage {
     height: 90%;
     margin-top: 20%;
+}
+
+div.image {
+    margin-top: 30px;
+    text-align: center;
+}
+
+img.image {
+    width: 70%;
 }

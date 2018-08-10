@@ -20,17 +20,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col">
                 <p class="blurb">
-                    Bathe private parts with tongue then lick owner's face hide head under blanket so no one can see for while happily ignoring when being called favor packaging over toy. Jump five feet high and sideways when a shadow moves sit on human. Step on your keyboard while you're gaming and then turn in a circle spill litter box, scratch at owner, destroy all furniture, especially couch. This human feeds me, i should be a god. Proudly present butt to human milk the cow and love you, then bite you for the fat cat sat on the mat bat away with paws eat from dog's food ask for petting. Eat owner's food have a lot of grump in yourself because you can't forget to be grumpy and not be like king grumpy cat sleep in the bathroom sink or meow meow, i tell my human but destroy house in 5 seconds, and cat cat moo moo lick ears lick paws. Show belly you are a captive audience while sitting on the toilet, pet me please stop looking at your phone and pet me white cat sleeps on a black shirt for stare at wall turn and meow stare at wall some more meow again continue staring paw at beetle and eat it before it gets away. My left donut is missing, as is my right.
+                    nanobrew.io is an application that I have built as a result of several homebrew batches going down the drain due to poor temperature control during the fermentation process. Several solutions exist already that can be used to prevent this problem like building a <a href="http://www.berrybrew.co.uk/fermentation-fridge-build-brew-fridge/">fermentation fridge</a>, or buying something off the shelf that manages it all for you. I already had some bits and pieces of hardware lying around so I came up with nanobrew as a simple-ish way of controlling my homebrew fermentation.
                 </p>
             </div>
-            <div class="col-lg-6">
-                <p class="blurb">
-                    Bathe private parts with tongue then lick owner's face hide head under blanket so no one can see for while happily ignoring when being called favor packaging over toy. Jump five feet high and sideways when a shadow moves sit on human. Step on your keyboard while you're gaming and then turn in a circle spill litter box, scratch at owner, destroy all furniture, especially couch. This human feeds me, i should be a god. Proudly present butt to human milk the cow and love you, then bite you for the fat cat sat on the mat bat away with paws eat from dog's food ask for petting. Eat owner's food have a lot of grump in yourself because you can't forget to be grumpy and not be like king grumpy cat sleep in the bathroom sink or meow meow, i tell my human but destroy house in 5 seconds, and cat cat moo moo lick ears lick paws. Show belly you are a captive audience while sitting on the toilet, pet me please stop looking at your phone and pet me white cat sleeps on a black shirt for stare at wall turn and meow stare at wall some more meow again continue staring paw at beetle and eat it before it gets away. My left donut is missing, as is my right. 
-                </p>
-            </div>
-        </div>
+        </div>    
         <div id="about" class="row">
             <div class="col">
                 <h3>
@@ -40,16 +35,40 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
+                <h4>Sensor</h4>
                 <p class="blurb">
-                    Nice Text
+                    This was the easiest piece of the puzzle for me to set up, I already had a WIFI enabled microcontroller chip connected to a bread board with various sensors attached. The sensor i wanted to use was this <a href="https://www.mouser.co.uk/ds18b20-waterproof-sensors/">waterproof temperature sensor</a>. It can measure temperature as accurately as I required, and as it was waterproof; it enabled me to get an accurate reading inside the beer rather than the ambient temperature surrounding the vessel.  I made the sensor take a reading every 10 minutes, then publish the results to my web app for storage and to react to changes.
                 </p>
             </div>
             <div class="col-lg-6">
+                <h4>Website</h4>
                 <p class="blurb">
-                    More Nice text and maybe a diagram
+                    The website you are looking at right now, it is built using <a href="https://nodejs.org/en/">NodeJs</a> and <a href="https://expressjs.com/">Express</a>, I chose those because I had been learning them and I wanted to have something relatively interesting to apply them too. As the sensor device was fairly lightweight, I wanted to use <a href="http://mqtt.org/">MQTT</a> as a protocol. MQTT is a lightweight messaging protocol that can be used in Internet of Things applications. I already had the code to publish messages to an MQTT broker working as well on my device, but nanobrew could work with any device, something like a Raspberry pi that also supports MQTT. 
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <h4>Heating</h4>
+                <p class="blurb">
+                    I have a nicely insulated indoor cupboard in my flat which tends to stay a fairly constant temperature as it is quite far from any outside walls.  In the winter however it does tend to drop below room temperature, so it will get a little cold and fermentation can stall. As winter and thd cold was the main issue I wanted to get a heater to add some extra heat when it was needed. There seemed to be two variaties out there, a "heat belt" which wraps around the fermenting bucket and a heat pad which the bucket sits on top of. I opted for the latter as I could use it to make sure my beer bottles once filled could stay warm and condition properly.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <h4>Trigger</h4>
+                <p class="blurb">
+                    If i can read a temperature and then make a decision if it is too cold, then I need to be able to turn on the heater.  An offline way to do this would be to solder in a relay to my microcontroller, then turn it on when required. I decided against this as I wanted to avoid anything that could burn down the house, and also I thought it would be good to change temperatures mid way through fermentation without needing to change the code running on the device.  I've seen various WiFi smart plugs on the market, I chose a <a href="https://www.tp-link.com/us/">TP-Link</a> plug as they someone had reverse engineered how the Android app worked, so they could be <a href="http://itnerd.space/2017/01/22/how-to-control-your-tp-link-hs100-smartplug-from-internet/">controlled using the API.</a> This enabled me to trigger actions from nanobrew when a reading came in.
                 </p>
             </div>
         </div>
+        <div id="about" class="row">
+                <div class="col">
+                    <h3>
+                        Diagram
+                    </h3>
+                    <div class="image"> 
+                        <img class="image" src="/img/diag.png" />
+                    </div>
+                </div>
+            </div>
     </div>
     
 <% include ./partials/foot %>
