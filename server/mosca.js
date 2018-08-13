@@ -1,4 +1,3 @@
-var request = require('request');
 const mosca = require('mosca');
 let mongoose = require('mongoose');
 let needle = require('needle');
