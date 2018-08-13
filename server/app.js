@@ -3,6 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require("method-override");
+const path = require("path")
 
 //Project dependencies
 const indexRoutes = require('../routes/index');
@@ -17,7 +18,9 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(express.static('public'));
+const assetPath = path.join(__dirname, '..' ,'public');
+console.log(assetPath);
+app.use(express.static(assetPath));
 app.use(methodOverride("_method"));
 
 const port = process.env.port || 3000;
