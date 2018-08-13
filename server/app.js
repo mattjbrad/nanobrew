@@ -28,6 +28,7 @@ app.use(readingRoutes);
 app.use(powerRoutes);
 app.use(indexRoutes);
 
+//set up the mqtt broker for readings from the device
 require('./mosca');
 
 //Start the server
