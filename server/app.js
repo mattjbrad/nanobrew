@@ -28,6 +28,8 @@ app.use(readingRoutes);
 app.use(powerRoutes);
 app.use(indexRoutes);
 
+require('./mosca');
+
 //Start the server
 app.listen(port, () => console.log(`Nanobrew listening on port ${port}!`));
 
