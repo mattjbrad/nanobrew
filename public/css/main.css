@@ -256,3 +256,7 @@ a {
 a:hover {
    color: #30839f
 }
+
+input[type='checkbox'].nochange {
+    cursor: not-allowed;
+}

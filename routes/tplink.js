@@ -87,7 +87,6 @@ router.get('/brews/:brewId/devices/reset', (req, res) => {
 });
 
 router.put('/brews/:brewId/devices', (req, res) => {
-    console.log('cheese '+req.params.brewId);
     Brew.findByIdAndUpdate(req.params.brewId, req.body, (err, brew) => {
         if (err) {
             console.log(err);

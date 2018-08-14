@@ -19,7 +19,7 @@ tpLogin = function(){
         if(status==='success'){
             guiLoggedIn();
             getDevices();
-            $('#token').val(data.token);
+            $('#token-bool')[0].checked = true;
         }
     });
 
@@ -60,7 +60,7 @@ setDevice = function(){
             data: {deviceId : deviceId},
             success: function(result) {
                 guiDeviceSelected();
-                $('#deviceId').val(deviceId)
+                $('#device-bool')[0].checked = true;
             }
         }
         $.ajax(request);
@@ -106,8 +106,8 @@ resetToken = function(){
 
     $.get(request, function(data){
         if (data){
-            $('#token').val('');
-            $('#deviceId').val('')
+            $('#token-bool')[0].checked = false;
+            $('#device-bool')[0].checked = false;
             guiLogin();
             guiChooseDevice();
         } else {
@@ -120,17 +120,17 @@ resetToken = function(){
 setupScreen = function(){
 
     //If there is a token already
-    if($('#token').val()){
+    if($('#token-bool')[0].checked){
         guiLoggedIn();
     }
 
     //If a user is authenticated, but no devices to choose then retrieve the list using the token
-    if(($('#token').val())&&($('select option').length<2)){
+    if(($('#token-bool')[0].checked)&&($('select option').length<2)){
         getDevices();
     }
 
     //If there is a device ID already linked
-    if($('#deviceId').val()){
+    if($('#device-bool')[0].checked){
         guiDeviceSelected();
     }
  }
