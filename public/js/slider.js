@@ -1,6 +1,9 @@
 
 var slider = $('#date-range');
-var max = parseInt(slider[0].max);
+var max = 0;
+if (slider[0]){
+    max = parseInt(slider[0].max);
+}
 
 setSliderValue = function(){
     var value = slider.val();

@@ -249,14 +249,18 @@ img.image {
     font-size: 0.6rem;
 }
 
-a {
+p.blurb a {
     color: white;
 }
 
-a:hover {
+p.blurb a:hover {
    color: #30839f
 }
 
 input[type='checkbox'].nochange {
     cursor: not-allowed;
+}
+
+td a {
+    color: black;
 }

@@ -10,6 +10,7 @@ const indexRoutes = require('./routes/index');
 const brewRoutes = require('./routes/brew');
 const readingRoutes = require('./routes/reading');
 const powerRoutes = require('./routes/tplink');
+const archiveRoutes = require('./routes/archive');
 
 mongoose.connect('mongodb://localhost:27017/nanobrew');
 
@@ -29,6 +30,7 @@ const port = process.env.port || 3000;
 app.use(brewRoutes);
 app.use(readingRoutes);
 app.use(powerRoutes);
+app.use(archiveRoutes);
 app.use(indexRoutes);
 
 //set up the mqtt broker for readings from the device

@@ -5,9 +5,7 @@ let moment = require('moment');
 let Brew = require('../models/brew');
 let Reading = require('../models/reading');
 
-
 router.get('/brews/:brewId/graph/reading', (req, res) => {
-    
     Brew.findOne({_id:req.params.brewId}).populate(
         {path:'readings', 
             match: 
@@ -24,8 +22,31 @@ router.get('/brews/:brewId/graph/reading', (req, res) => {
     });
 });
 
-router.post('/brews/:brewId/reading', (req, res) => {
+router.get('/archive/:brewId/graph/reading', (req, res) => {
+    
+    Brew.findOne({_id:req.params.brewId}).populate(
+        {path:'readings', 
+            match : {
+                $and : [
+                    { time : 
+                        { $gte : req.query.from}
+                    },
+                    { time : 
+                        { $lte : req.query.to}
+                    }
+                ]
+            }
+        }).exec((err, brew) => {
+        if (err) {
+            console.log(err);
+            res.send("Something went wrong");
+        } else {
+            res.send(brew);
+        }
+    });
+});
 
+router.post('/:brew/:brewId/reading', (req, res) => {
     Brew.findById(req.params.brewId, (err, brew) => {
         if (err) {
             console.log(err);

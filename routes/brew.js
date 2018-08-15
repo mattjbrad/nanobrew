@@ -14,28 +14,6 @@ router.get('/brews', (req, res) => {
     });
 });
 
-router.get('/brews/archive', (req, res) => {
-    Brew.find({}, (err, brews) => {
-        if (err) {
-            console.log(err);
-            res.send("Something went wrong");
-        } else {
-            res.render('brews', {brews, moment});
-        }
-    });
-});
-
-router.get('/archive', (req, res) => {
-    Brew.find({}, (err, brews) => {
-        if (err) {
-            console.log(err);
-            res.send("Something went wrong");
-        } else {
-            res.render('archive', {brews, moment});
-        }
-    });
-});
-
 router.get('/brews/new', (req, res) => {
     res.render('new');
 });

@@ -1,0 +1,42 @@
+<% include ../partials/head %>
+<script src="/js/tempusdominus-bootstrap-4.min.js"></script>
+<link rel="stylesheet" href="/css/tempusdominus-bootstrap-4.min.css">
+<script src="/js/chart/Chart.min.js"></script>
+<script src="/js/chart/chartjs-plugin-annotation.min.js"></script>
+<link rel="stylesheet" href="/css/slider.css">
+
+<%- include('../partials/nav', {active:'archive'}); %>
+
+    <div class="container">
+        <header class="jumbotron">
+            <div class="container">
+                <h2>Brew History</h2>
+                <p>See the temperature readings throughout the fermentation</p>
+            </div>
+        </header>
+        <div class="row text-center">
+            <div class="col-lg-8">
+                <canvas id="tempChart" width="300" height="250"></canvas>
+            </div>
+            <div class="col-lg-4">
+                <div class="brew-form brewDetails">
+                    <h3>
+                        Graph Settings
+                    </h3>
+                    <%- include('../partials/datepicker', {label: 'from', id: 'datePickerFrom'}); %> 
+                    <%- include('../partials/datepicker', {label: 'to', id: 'datePickerTo'}); %>  
+                    <button id="submit-dates" class="btn btn-outline-info" onclick="refresh_data()">Submit</button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/slider.js"></script>
+    <script src="/js/chart/chart.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datePickerFrom').datetimepicker({format: "Do MMM YYYY, h:mm:ss a"});
+        });
+        $(function () {
+            $('#datePickerTo').datetimepicker({format: "Do MMM YYYY, h:mm:ss a"});
+        });
+    </script>
+<% include ../partials/foot %>

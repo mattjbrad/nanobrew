@@ -1,86 +1,96 @@
 var minute_refresh = 1;
 
-window.onload = function() { refresh_data(); };
+if(window.location.pathname.includes('brews')){
+  window.onload = function() { refresh_data(); };
+  var interval = 1000 * 60 * minute_refresh;
+  setInterval(refresh_data, interval);
+} else {
+  window.onload = function() { setDates(refresh_data); };
+}
 
 var ctx = document.getElementById("tempChart");
-var refresh_data = function() {
 
-  var getUrl = `${window.location.pathname}/reading?range=${getSliderValue()}`;
+var refresh_data = function(type) {
 
-  $.get(getUrl, function(data, status){
-    var graphData = transformData(data.readings);
-    var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: graphData.labels,
-          datasets: [{
-              label: 'Temperature',
-              data: graphData.points,
-              borderColor: "rgba(77,184,255,0.9)",
-              radius:3
-          }]
-      },
-      options: {
-        legend: {
-          labels:{
-            fontColor: "white"
-          }
+  var getUrl;
+  if( window.location.pathname.includes('archive')){
+    getUrl = `${window.location.pathname}/reading?from=${getFrom()}&to=${getTo()}`;
+  } else if (window.location.pathname.includes('brews')){
+    getUrl = `${window.location.pathname}/reading?range=${getSliderValue()}`;
+  } 
+
+  if (getUrl) {
+    $.get(getUrl, function(data, status){
+      var graphData = transformData(data.readings);
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: graphData.labels,
+            datasets: [{
+                label: 'Temperature',
+                data: graphData.points,
+                borderColor: "rgba(77,184,255,0.9)",
+                radius:3
+            }]
         },
-        scales: {
-          xAxes: [{
-            ticks:{
+        options: {
+          legend: {
+            labels:{
               fontColor: "white"
-            },
-            gridLines:{
-              color:"rgba(255,255,255,0.1)"
-            },
-            type:'time',
-            time: {
-              displayFormats: {
-                hour: 'hA'
+            }
+          },
+          scales: {
+            xAxes: [{
+              ticks:{
+                fontColor: "white"
+              },
+              gridLines:{
+                color:"rgba(255,255,255,0.1)"
+              },
+              type:'time',
+              time: {
+                displayFormats: {
+                  hour: 'hA'
+                }
               }
-            }
-          }],
-          yAxes : [{
-            ticks:{
-              fontColor:"white",
-              suggestedMin:data.minTemp-2,
-              suggestedMax:data.maxTemp+2
-            },
-            gridLines:{
-              color:"rgba(255,255,255,0.1)"
-            }
-          }]
-        },
-        annotation: {
-          events: ["click"],
-          annotations: [
-            {
-              type: "line",
-              mode: "horizontal",
-              scaleID: "y-axis-0",
-              value: data.minTemp,
-              borderColor: "rgba(251,123,6,0.9)",
-              borderWidth: 2,
-            },
-            {
-              type: "line",
-              mode: "horizontal",
-              scaleID: "y-axis-0",
-              value: data.maxTemp,
-              borderColor: "rgba(166,6,6,0.9)",
-              borderWidth: 2,
-            }
-          ]
+            }],
+            yAxes : [{
+              ticks:{
+                fontColor:"white",
+                suggestedMin:data.minTemp-2,
+                suggestedMax:data.maxTemp+2
+              },
+              gridLines:{
+                color:"rgba(255,255,255,0.1)"
+              }
+            }]
+          },
+          annotation: {
+            events: ["click"],
+            annotations: [
+              {
+                type: "line",
+                mode: "horizontal",
+                scaleID: "y-axis-0",
+                value: data.minTemp,
+                borderColor: "rgba(251,123,6,0.9)",
+                borderWidth: 2,
+              },
+              {
+                type: "line",
+                mode: "horizontal",
+                scaleID: "y-axis-0",
+                value: data.maxTemp,
+                borderColor: "rgba(166,6,6,0.9)",
+                borderWidth: 2,
+              }
+            ]
+          }
         }
-      }
+      });
     });
-  });
+  }
 };
-
-var interval = 1000 * 60 * minute_refresh;
-
-setInterval(refresh_data, interval);
 
 transformData = function(data){
     var graphData = {}; 
@@ -111,4 +121,42 @@ simReading = function(){
   };
 
   $.post(url, reading, refresh_data);
+}
+
+var from = $('#datePickerFrom input');
+var to = $('#datePickerTo input');
+
+// $('#datePickerFrom input, #datePickerTo input').on('change keyup paste', function(){
+//   if($(this).val()){
+//     $('#submit-dates').attr('disabled', false);
+//   } else {
+//     console.log('here');
+//     $('#submit-dates').attr('disabled', true);
+//   }
+// });
+
+getFrom = function() {
+  var date;
+  if (from.val() ){
+    date = moment(from.val(), 'Do MMM YYYY, h:mm:ss a').toISOString();
+  }
+  return date;
+};
+
+getTo = function() {
+  var date;
+  if (to.val() ){
+    date = moment(to.val(), 'Do MMM YYYY, h:mm:ss a').toISOString();
+  }
+  return date;
+};
+
+setDates = function(callback) {
+  to.val(moment().format('Do MMM YYYY, h:mm:ss a'));
+  $.get(window.location.pathname.slice(0, 34)+'created', function(data){
+    if (data){
+      from.val(moment(data.created).format('Do MMM YYYY, h:mm:ss a'));
+    }
+    callback();
+  });
 }

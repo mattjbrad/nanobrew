@@ -1,12 +1,11 @@
-<% include ./partials/head %>
-<%- include('partials/nav', {active: 'archive'}); %>
+<% include ../partials/head %>
+<%- include('../partials/nav', {active: 'archive'}); %>
 
     <div class="container">
         <header class="jumbotron">
             <div class="container">
                 <h2>Historic Brews</h2>
                 <p>Look at past completed brews in the archive</p>
-                <p><a class="btn btn btn-outline-light" href="/brews/new">Add New Brew</a></p>
             </div>
         </header>
 
@@ -14,7 +13,7 @@
             <% brews.forEach((brew) => { %>
                 <div class="col-lg-4 col-md-6 brewBox">
                     <div class="brewDetails">
-                        <a href="/brews/<%= brew.id%>" class="brewLink">
+                        <a href="/archive/<%= brew.id%>" class="brewLink">
                             <%= brew.name %>
                         </a>
                         <p>
@@ -23,16 +22,10 @@
                         <p>
                             <span class="bold">Created: </span> <%= new moment(brew.created).format('H:mm, MMMM Do YYYY') %> %>
                         </p>
-                        <a href="/brews/<%= brew.id%>" class="btn btn-outline-info">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a href="/brews/<%=brew.id%>/stop" class="btn btn-outline-warning">
-                            <i class="fas fa-ban"></i>
-                        </a>
-                        <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light">
+                        <a href="/archive/<%=brew.id%>/graph" class="btn btn-outline-light">
                             <i class="fas fa-chart-line"></i>
                         </a>
-                        <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
+                        <form id="delete-form" action="/archive/<%=brew._id %>/?_method=DELETE" method="POST">
                             <a>
                                 <button type="submit" class="btn btn-outline-danger">
                                     <i class="fas fa-trash-alt"></i>
@@ -44,4 +37,4 @@
             <% }) %>
         </div>
     </div>    
-<% include ./partials/foot %>
+<% include ../partials/foot %>

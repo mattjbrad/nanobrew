@@ -23,6 +23,7 @@
     "path": "^0.12.7",
     "rangeslider.js": "^2.3.2",
     "request": "^2.87.0",
+    "tempusdominus-bootstrap-4": "^5.0.1",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
