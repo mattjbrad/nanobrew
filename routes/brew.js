@@ -9,12 +9,12 @@ router.get('/brews', (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.render('brews', {brews, moment});
+            res.render('brews', {brews, moment, user: req.user});
         }
     });
 });
 
-router.get('/brews/new', (req, res) => {
+router.get('/brews/new', isLoggedIn, (req, res) => {
     res.render('new');
 });
 
@@ -29,7 +29,7 @@ router.get('/brews/:id', (req, res) => {
     });
 });
 
-router.post('/brews', (req, res) => {
+router.post('/brews', isLoggedIn, (req, res) => {
     Brew.create(req.body, (err, brew) => {
         if (err) {
             console.log(err);
@@ -42,15 +42,15 @@ router.post('/brews', (req, res) => {
     });
 });
 
-router.get('/brews/:id/edit', (req, res) => {
+router.get('/brews/:id/edit', isLoggedIn, (req, res) => {
     res.send(`form to edit specific brew ${req.params.id}`);
 });
 
-router.get('/brews/:id/graph', (req, res) => {
+router.get('/brews/:id/graph', isLoggedIn, (req, res) => {
     res.render('graph');
 });
 
-router.put('/brews/:id', (req, res) => {
+router.put('/brews/:id', isLoggedIn, (req, res) => {
     Brew.findByIdAndUpdate(req.params.id, req.body, (err, brew) => {
         if (err) {
             console.log(err);
@@ -61,7 +61,7 @@ router.put('/brews/:id', (req, res) => {
     });
 });
 
-router.get('/brews/:id/stop', (req, res) => {
+router.get('/brews/:id/stop', isLoggedIn, (req, res) => {
     Brew.findByIdAndUpdate(req.params.id, {stopped:true}, (err, brew) => {
         if (err) {
             console.log(err);
@@ -72,7 +72,7 @@ router.get('/brews/:id/stop', (req, res) => {
     });
 });
 
-router.delete('/brews/:id', (req, res) => {
+router.delete('/brews/:id', isLoggedIn, (req, res) => {
     Brew.findByIdAndRemove(req.params.id, (err, brew) => {
         if (err) {
             console.log(err);
@@ -82,5 +82,12 @@ router.delete('/brews/:id', (req, res) => {
         }
     });
 });
+
+isLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()){
+        return next();
+    } 
+    res.redirect('/login');
+}
 
 module.exports = router;

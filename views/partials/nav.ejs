@@ -21,12 +21,21 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav">
-				<li <%if(active=="register"){%>class="active"<%}%>>
-					<a class="nav-link" href="/register"><i class="fas fa-user-plus"></i> Register</a>
-				</li>
-				<li <%if(active=="login"){%>class="active"<%}%>>
-					<a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
-				</li>
+				<% if (!user) { %>
+					<li <%if(active=="register"){%>class="active"<%}%>>
+						<a class="nav-link" href="/register"><i class="fas fa-user-plus"></i> Register</a>
+					</li>
+					<li <%if(active=="login"){%>class="active"<%}%>>
+						<a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+					</li>
+				<% } else { %>
+					<li>
+						<span class="nav-link" style="text-transform: capitalize;">Welcome, <%= user.username %></span>
+					</li>
+					<li>
+						<a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+					</li>
+				<% } %>
 			</ul>
 		</div>
 	</div>

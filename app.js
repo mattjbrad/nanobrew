@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const methodOverride = require("method-override");
 const path = require("path")
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 
 //Project dependencies
 const indexRoutes = require('./routes/index');
@@ -11,6 +13,7 @@ const brewRoutes = require('./routes/brew');
 const readingRoutes = require('./routes/reading');
 const powerRoutes = require('./routes/tplink');
 const archiveRoutes = require('./routes/archive');
+const User = require('./models/user');
 
 mongoose.connect('mongodb://localhost:27017/nanobrew');
 
@@ -23,6 +26,23 @@ const assetPath = path.join(__dirname, 'public');
 console.log(assetPath);
 app.use(express.static(assetPath));
 app.use(methodOverride("_method"));
+
+//Passport Config
+app.use(require('express-session')({
+    secret: 'who loves beer, I do???',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+});
 
 const port = process.env.port || 3000;
 
