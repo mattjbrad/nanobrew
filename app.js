@@ -1,19 +1,22 @@
 // NPM Dependencies
-const express = require('express')
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const methodOverride = require("method-override");
-const path = require("path")
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const   express = require('express'),
+        bodyParser = require('body-parser'),
+        mongoose = require('mongoose'),
+        methodOverride = require("method-override"),
+        path = require("path"),
+        passport = require('passport'),
+        LocalStrategy = require('passport-local'),
+        flash = require('connect-flash'),
+        cookieParser = require('cookie-parser'),
+        session = require('express-session');
 
 //Project dependencies
-const indexRoutes = require('./routes/index');
-const brewRoutes = require('./routes/brew');
-const readingRoutes = require('./routes/reading');
-const powerRoutes = require('./routes/tplink');
-const archiveRoutes = require('./routes/archive');
-const User = require('./models/user');
+const   indexRoutes = require('./routes/index'),
+        brewRoutes = require('./routes/brew'),
+        readingRoutes = require('./routes/reading'),
+        powerRoutes = require('./routes/tplink'),
+        archiveRoutes = require('./routes/archive'),
+        User = require('./models/user');
 
 mongoose.connect('mongodb://localhost:27017/nanobrew');
 
@@ -27,6 +30,10 @@ console.log(assetPath);
 app.use(express.static(assetPath));
 app.use(methodOverride("_method"));
 
+app.use(cookieParser('malt yeast and hops'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+
 //Passport Config
 app.use(require('express-session')({
     secret: 'who loves beer, I do???',
@@ -38,9 +45,10 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
 app.use((req, res, next) => {
     res.locals.user = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
     next();
 });
 

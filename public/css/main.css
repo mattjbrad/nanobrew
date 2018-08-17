@@ -264,3 +264,20 @@ input[type='checkbox'].nochange {
 td a {
     color: black;
 }
+
+.alert {
+    margin: 1rem 0;
+    border-width: 2px;
+}
+
+.alert-success {
+    color: rgb(26, 255, 78);
+    background-color:rgba(26, 255, 78, 0.15);
+    border-color: rgb(26, 255, 78);
+}
+
+.alert-danger {
+    color: rgb(255, 17, 39);
+    background-color:rgba(255, 17, 39, 0.2);
+    border-color: rgb(255, 17, 39);
+}

@@ -76,26 +76,26 @@ router.get('/brews/:brewId/reading/:readingId', (req, res) => {
     });
 });
 
-router.put('/brews/:brewId/reading/:readingId', (req, res) => {
-    Reading.findByIdAndUpdate(req.params.readingId, req.body, (err, reading) => {
-        if (err) {
-            console.log(err);
-            res.send("Something went wrong");
-        } else {
-            res.send(reading);
-        }
-    });
-});
+// router.put('/brews/:brewId/reading/:readingId', (req, res) => {
+//     Reading.findByIdAndUpdate(req.params.readingId, req.body, (err, reading) => {
+//         if (err) {
+//             console.log(err);
+//             res.send("Something went wrong");
+//         } else {
+//             res.send(reading);
+//         }
+//     });
+// });
 
-router.delete('/brews/:brewId/reading/:readingId', (req, res) => {
-    Reading.findByIdAndRemove(req.params.readingId, (err, reading) => {
-        if (err) {
-            console.log(reading);
-            res.send("Something went wrong");
-        } else {
-            res.send(reading);
-        }
-    });
-});
+// router.delete('/brews/:brewId/reading/:readingId', (req, res) => {
+//     Reading.findByIdAndRemove(req.params.readingId, (err, reading) => {
+//         if (err) {
+//             console.log(reading);
+//             res.send("Something went wrong");
+//         } else {
+//             res.send(reading);
+//         }
+//     });
+// });
 
 module.exports = router;

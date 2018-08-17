@@ -17,14 +17,15 @@ router.get("/register", (req, res) => {
 
 router.post("/register", (req, res) => {
     const newUser = new User({username: req.body.username});
-    console.log(req.body);
     User.register(newUser, req.body.password, (err, user) => {
         if(err){
             console.log(err);
-            return res.render("register");
+            req.flash('error', 'Sorry someone with that username already exists');
+            return res.redirect("/register");
         }
         passport.authenticate("local")(req, res, () => {
-           res.redirect("/brews"); 
+            req.flash('success', 'You have now been registered');
+            res.redirect("/brews"); 
         });
     });
 });
@@ -35,6 +36,7 @@ router.get("/login", (req, res) => {
 
 router.get("/logout", (req, res) => {
     req.logout();
+    req.flash('success', 'Logged out successfully');
     res.redirect('/brews');
 });
 
@@ -48,12 +50,5 @@ router.post("/login", passport.authenticate("local", {
 router.get("*", (req, res)=>{
     res.render("404");
 });
-
-isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()){
-        return next();
-    } 
-    res.redirect('/login');
-}
 
 module.exports = router;

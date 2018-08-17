@@ -28,13 +28,15 @@
                         <a href="/archive/<%=brew.id%>/graph" class="btn btn-outline-light">
                             <i class="fas fa-chart-line"></i>
                         </a>
-                        <form id="delete-form" action="/archive/<%=brew._id %>/?_method=DELETE" method="POST">
-                            <a>
-                                <button type="submit" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </a>
-                        </form>
+                        <% if (user && brew.creator.id.equals(user._id)){ %>
+                            <form id="delete-form" action="/archive/<%=brew._id %>/?_method=DELETE" method="POST">
+                                <a>
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </a>
+                            </form>
+                        <% } %>
                     </div>
                 </div>
             <% }) %>
