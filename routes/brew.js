@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let Brew = require('../models/brew');
 let moment = require('moment');
+let middleware = require('../middleware');
 
 router.get('/brews', (req, res) => {
     Brew.find({stopped:false}, (err, brews) => {
@@ -20,38 +21,31 @@ router.get('/brews/new', isLoggedIn, (req, res) => {
 
 router.get('/brews/:id', (req, res) => {
     Brew.findById(req.params.id, (err, brew) => {
-        if (err) {
-            console.log(err);
-            res.send("Something went wrong");
-        } else {
-            res.render('edit', {brew, moment});
-        }
+        res.render('edit', {brew, moment});
     });
 });
 
-router.post('/brews', isLoggedIn, (req, res) => {
+router.post('/brews', middleware.isLoggedIn, (req, res) => {
     Brew.create(req.body, (err, brew) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
         } else {
             brew.topic = `/beer/readings/${brew._id}`;
+            brew.creator.id = req.user._id;
+            brew.creator.username = req.user.username;
             brew.save();
             res.redirect('brews');
         }
     });
 });
 
-router.get('/brews/:id/edit', isLoggedIn, (req, res) => {
-    res.send(`form to edit specific brew ${req.params.id}`);
-});
-
-router.get('/brews/:id/graph', isLoggedIn, (req, res) => {
+router.get('/brews/:id/graph', (req, res) => {
     res.render('graph');
 });
 
-router.put('/brews/:id', isLoggedIn, (req, res) => {
-    Brew.findByIdAndUpdate(req.params.id, req.body, (err, brew) => {
+router.put('/brews/:id', middleware.checkOwnership, (req, res) => {
+    Brew.findByIdAndUpdate(req.params.id, req.body, (err) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
@@ -61,8 +55,8 @@ router.put('/brews/:id', isLoggedIn, (req, res) => {
     });
 });
 
-router.get('/brews/:id/stop', isLoggedIn, (req, res) => {
-    Brew.findByIdAndUpdate(req.params.id, {stopped:true}, (err, brew) => {
+router.get('/brews/:id/stop', middleware.checkOwnership, (req, res) => {
+    Brew.findByIdAndUpdate(req.params.id, {stopped:true}, (err) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
@@ -72,8 +66,8 @@ router.get('/brews/:id/stop', isLoggedIn, (req, res) => {
     });
 });
 
-router.delete('/brews/:id', isLoggedIn, (req, res) => {
-    Brew.findByIdAndRemove(req.params.id, (err, brew) => {
+router.delete('/brews/:id', middleware.checkOwnership, (req, res) => {
+    Brew.findByIdAndRemove(req.params.id, (err) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
@@ -82,12 +76,5 @@ router.delete('/brews/:id', isLoggedIn, (req, res) => {
         }
     });
 });
-
-isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()){
-        return next();
-    } 
-    res.redirect('/login');
-}
 
 module.exports = router;

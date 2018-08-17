@@ -22,6 +22,9 @@
                         <p>
                             <span class="bold">Created: </span> <%= new moment(brew.created).format('H:mm, MMMM Do YYYY') %> %>
                         </p>
+                        <p>
+                            <span class="bold">Creator: </span> <span style="text-transform: capitalize"><%= brew.creator.username %></span>
+                        </p>
                         <a href="/archive/<%=brew.id%>/graph" class="btn btn-outline-light">
                             <i class="fas fa-chart-line"></i>
                         </a>

@@ -5,7 +5,7 @@ let moment = require('moment');
 let Brew = require('../models/brew');
 let Reading = require('../models/reading');
 
-router.get('/brews/:brewId/graph/reading', (req, res) => {
+router.get('/brews/:brewId/graph/reading',  (req, res) => {
     Brew.findOne({_id:req.params.brewId}).populate(
         {path:'readings', 
             match: 
@@ -23,7 +23,6 @@ router.get('/brews/:brewId/graph/reading', (req, res) => {
 });
 
 router.get('/archive/:brewId/graph/reading', (req, res) => {
-    
     Brew.findOne({_id:req.params.brewId}).populate(
         {path:'readings', 
             match : {

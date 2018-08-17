@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 let Brew = require('../models/brew');
 let moment = require('moment');
+let middleware = require('../middleware');
 
 router.get('/archive', (req, res) => {
     Brew.find({}, (err, brews) => {
@@ -40,7 +41,7 @@ router.get('/archive/:id/graph', (req, res) => {
     res.render('archive/graph');
 });
 
-router.delete('/archive/:id', (req, res) => {
+router.delete('/archive/:id', middleware.checkOwnership, (req, res) => {
     Brew.findByIdAndRemove(req.params.id, (err, brew) => {
         if (err) {
             console.log(err);

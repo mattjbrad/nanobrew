@@ -15,7 +15,14 @@ var brewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Reading"
     }],
-    devices             : []
+    devices             : [],
+    creator: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        username: String
+    }
 });
 
 // create the model for users and expose it to our app
