@@ -30,7 +30,7 @@ var refresh_data = function(type) {
                 label: 'Temperature',
                 data: graphData.points,
                 borderColor: "rgba(77,184,255,0.9)",
-                radius:3
+                radius:2
             }]
         },
         options: {
@@ -96,12 +96,21 @@ transformData = function(data){
     var graphData = {}; 
     var points = [];
     var labels = [];
+    //variable to store when the last reading was graphed
+    var lastTimeInterval;
     for (var i=0; i<data.length; i++){
+      //for the next reading, get the current time code and store it
+      var currentTimeInterval = moment(data[i].time).format(getFrequency());
+      //If they are different, then the time interval doesn't have a reading so graph it
+      if( currentTimeInterval !== lastTimeInterval){
         points.push({
-            x: data[i].time,
-            y: data[i].temp
-        });
-        labels.push(data[i].time);
+          x: data[i].time,
+          y: data[i].temp
+      });
+      labels.push(data[i].time);
+      //Change the interval so it is the new value
+      lastTimeInterval = currentTimeInterval;
+      }
     }
     graphData.points = points;
     graphData.labels = labels;
@@ -115,25 +124,12 @@ simReading = function(){
     temp: $('#sim-temp').val()
   };
   var url = `${window.location.pathname.slice(0,31)}/reading`;
-  var data = {
-    url:url,
-    data:reading
-  };
-
+  console.log(url);
   $.post(url, reading, refresh_data);
 }
 
 var from = $('#datePickerFrom input');
 var to = $('#datePickerTo input');
-
-// $('#datePickerFrom input, #datePickerTo input').on('change keyup paste', function(){
-//   if($(this).val()){
-//     $('#submit-dates').attr('disabled', false);
-//   } else {
-//     console.log('here');
-//     $('#submit-dates').attr('disabled', true);
-//   }
-// });
 
 getFrom = function() {
   var date;
@@ -150,6 +146,10 @@ getTo = function() {
   }
   return date;
 };
+
+getFrequency = function() {
+  return $('#frequency').val();
+}
 
 setDates = function(callback) {
   to.val(moment().format('Do MMM YYYY, h:mm:ss a'));
