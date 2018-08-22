@@ -8,10 +8,21 @@ let Reading = require('../models/reading');
 mongoose.connect('mongodb://localhost:27017/nanobrew');
 
 let moscaSettings = require('../config/mqtt');
+let clientSettings = require('../config/client');
+
 let server = new mosca.Server(moscaSettings);
 
 server.on('ready', ()=>{
     console.log('MQTT Broker Successfully Connected');
+});
+
+server.on('clientConnected', function(client) {
+    //prevent connections from other devices
+    if (client.id!==clientSettings.id || client.id!==clientSettings.webid){
+        console.log('closing client', client.id, client);
+        client.close();
+    }
+    console.log('client connected', client.id);
 });
 
 server.on('published', (packet, client) => {
