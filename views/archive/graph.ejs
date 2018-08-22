@@ -24,7 +24,16 @@
                         Graph Settings
                     </h3>
                     <%- include('../partials/datepicker', {label: 'from', id: 'datePickerFrom'}); %> 
-                    <%- include('../partials/datepicker', {label: 'to', id: 'datePickerTo'}); %>  
+                    <%- include('../partials/datepicker', {label: 'to', id: 'datePickerTo'}); %> 
+                    <div class="form-group">
+                        <label for="frequency">Frequency</label>
+                        <select id="frequency" name="frequency" class="form-control">
+                            <option value='DDDD'>Once a day</option>
+                            <option value='a'>Twice a day</option>
+                            <option value='DDDDHH'>Every hour</option>
+                            <option value='X'>Everything</option>
+                        </select>
+                    </div>
                     <button id="submit-dates" class="btn btn-outline-info" onclick="refresh_data()">Submit</button>
             </div>
         </div>
