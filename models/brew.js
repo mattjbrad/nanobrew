@@ -22,6 +22,15 @@ var brewSchema = new mongoose.Schema({
             ref: 'User'
         },
         username: String
+    },
+    og : Number,
+    fg : Number,
+    ingredients: {
+        malt    : String,
+        hops    : String,
+        yeast   : String,
+        other   : String,
+        size    : Number
     }
 });
 

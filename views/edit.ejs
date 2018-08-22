@@ -3,67 +3,141 @@
 
 <div class="container">
     <header class="jumbotron">
-            <div class="container">
-                <h2>Edit your Brew</h2>
-                <p>Make your changes below</p>
-            </div>
-        </header>
+        <div class="container">
+            <h2>Edit your Brew</h2>
+            <p>Make your changes below</p>
+        </div>
+    </header>
     <div class="row">
-        <div class="col-lg-6">
-            <div class="brew-form brewDetails">
-                <h3>
-                    Brew Details
-                </h3>
+        <div class="col-12">
+            <div class="brew-form brewDetails wide">
                 <form action="/brews/<%=brew._id%>?_method=PUT" method="post">
-                    <div class="form-group">
-                        <label for="name">Brew Name</label>
-                        <input type="text" class="form-control" name="name" id="name" aria-describedby="name" value="<%=brew.name%>">
-                    </div>
-                    <div class="form-group">
-                        <label for="min">Temperature Range</label>
-                        <div class="row">
-                            <input type="number" class="form-control form-half" name="minTemp" id="min" value="<%=brew.minTemp%>" step="0.25">
-                            <input type="number" class="form-control form-half" name="maxTemp" id="max" value="<%=brew.maxTemp%>" step="0.25">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="orange">Brew Details</h4>
+                            <div class="form-group">
+                                <label for="name">Brew Name</label>
+                                <input 
+                                    type="text" class="form-control form-control-sm" name="name" id="name" aria-describedby="name" value="<%=brew.name%>"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                            </div>
+                            <div class="form-group">
+                                <label for="min">Temperature Range</label>
+                                <div class="row">
+                                    <input 
+                                        type="number" class="form-control form-half form-control-sm" name="minTemp" id="min" value="<%=brew.minTemp%>" step="0.25"
+                                        <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                                    <input 
+                                        type="number" class="form-control form-half form-control-sm" name="maxTemp" id="max" value="<%=brew.maxTemp%>" step="0.25"
+                                        <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="topic">Topic</label>
+                                <input
+                                    class="form-control form-control-sm" type="text" name="topic" value="<%=brew.topic%>"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                            </div>
+                            <div class="form-group">
+                                <label for="created">Created on</label>
+                                <input
+                                    class="form-control form-control-sm" type="text" readonly value="<%=new moment(brew.created).format('H:mm, MMMM Do YYYY')%>"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                            </div>
+                            <div class="form-group">
+                                <label for="created">Created by</label>
+                                <input
+                                    class="form-control form-control-sm" style="text-transform: capitalize" type="text" readonly value="<%= brew.creator.username %>"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="orange">Temperature Control</h4>
+                            <div class="form-group">
+                                <label for="token">Access Token</label>
+                                <input type="checkbox" class="form-check form-control nochange" id="token-bool" onClick="return false;" <% if (brew.token) {%> checked <% } %> >
+                            </div>
+                            <div class="form-group">
+                                <label for="deviceId">Device ID</label>
+                                <input type="checkbox" class="form-check form-control nochange" id="device-bool" onClick="return false;" <% if (brew.deviceId) {%> checked <% } %> >
+                            </div>
+                            <h4 class="orange">Gravity Readings</h4>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="form-half form-control-sm" for="og">Original Gravity</label>
+                                    <label class="form-half form-control-sm" for="fg">Final Gravity</label>
+                                </div>
+                                <div class="row">
+                                    <input
+                                        type="number" class="form-control form-half form-control-sm" name="og" id="og" value="1.050" step="0.001" value="<%=brew.og%>"
+                                        <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                                    <input
+                                        type="number" class="form-control form-half form-control-sm" name="fg" id="fg" value="1.010" step="0.001" value="<%=brew.fg%>"
+                                        <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="abv">ABV%</label>
+                                <input type="text" class="form-control form-control-sm" name="abv" id="abv" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="orange">Recipe</h4>
+                            <div class="form-group">
+                                <label for="size">Boil Size (Litres)</label>
+                                <input
+                                    type="number" class="form-control form-control-sm" name="ingredients.size" id="size" value="<%=brew.ingredients.size%>"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                            </div>
+                            <div class="form-group">
+                                <label for="malt">Malt Bill</label>
+                                <textarea
+                                    class="form-control form-control-sm" rows="4" cols="40" name="ingredients.malt" id="malt"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>><%=brew.ingredients.malt%>
+                                </textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="malt">Hop Schedule</label>
+                                <textarea
+                                    class="form-control form-control-sm" rows="4" cols="40" name="ingredients.hops" id="hops"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>><%=brew.ingredients.hops%>
+                                </textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="yeast">Yeast</label>
+                                <input
+                                    type="text" class="form-control form-control-sm" name="ingredients.yeast" id="yeast" value="<%=brew.ingredients.yeast%>"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>>
+                            </div>
+                            <div class="form-group">
+                                <label for="other">Other Ingredients</label>
+                                <textarea
+                                    class="form-control form-control-sm" rows="4" cols="40" name="ingredients.other" id="other"
+                                    <% if (!user || !brew.creator.id.equals(user._id)) { %>readonly<% } %>><%=brew.ingredients.other%>
+                                </textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="topic">Topic</label>
-                        <input class="form-control" type="text" name="topic" value="<%=brew.topic%>">
-                    </div>
-                    <div class="form-group">
-                        <label for="created">Created on</label>
-                        <input class="form-control" type="text" readonly value="<%=new moment(brew.created).format('H:mm, MMMM Do YYYY')%>">
-                    </div>
-                    <div class="form-group">
-                        <label for="created">Created by</label>
-                        <input class="form-control" type="text" readonly value="<%= brew.creator.username %>">
-                    </div>
-                    <div class="form-group">
-                        <label for="token">Access Token</label>
-                        <input type="checkbox" class="form-check form-control nochange" id="token-bool" onClick="return false;" <% if (brew.token) {%> checked <% } %> >
-                    </div>
-                    <div class="form-group">
-                        <label for="deviceId">Device ID</label>
-                        <input type="checkbox" class="form-check form-control nochange" id="device-bool" onClick="return false;" <% if (brew.deviceId) {%> checked <% } %> >
-                    </div>
-                    <div style="display: inline-block">
-                        <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
-                        <% if (user && brew.creator.id.equals(user._id)) { %>
-                        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-check"></i></button>
-                </form>
-                <a id="toggle-button" class="btn btn-outline-warning" data-toggle="collapse" href="#heat-control"><i class="fas fa-cogs"></i></a>
-                <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
-                    <a>
-                        <button type="submit" class="btn btn-outline-danger">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </a>
-                    </div>
-                </form>
-                <% } %>
+                        <div style="display: inline-block">
+                            <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
+                            <% if (user && brew.creator.id.equals(user._id)) { %>
+                            <button type="submit" class="btn btn-outline-primary"><i class="fas fa-check"></i></button>
+                    </form>
+                    <a id="toggle-button" class="btn btn-outline-warning" data-toggle="collapse" href="#heat-control"><i class="fas fa-cogs"></i></a>
+                    <form id="delete-form" action="/brews/<%=brew._id %>/?_method=DELETE" method="POST">
+                        <a>
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </a>
+                        </div>
+                    </form>
+                    <% } %>
+                </div>
             </div>
         </div>
-            <div class="col-lg-6">
+        <% if (user && brew.creator.id.equals(user._id)) { %>
+            <div class="col">
                 <div class="brew-form brewDetails collapse" id="heat-control">
                     <h3>
                         Heat Control
@@ -71,7 +145,7 @@
                     <div style="display:grid">
                         <div id="step1">
                             <div id="step1-login">
-                                <h4>Step 1</h4>
+                                <h4 class="orange">Step 1</h4>
                                 <p>
                                     Login to your TP Link Account
                                 </p>
@@ -86,14 +160,14 @@
                                 </div>
                             </div>
                             <div id="step1-logged-in" style="display:none;" class="wide">
-                                <h4>Step 1</h4>
+                                <h4 class="orange">Step 1</h4>
                                 <p>Logged in like a dream</p>
                                 <button class="btn btn-outline-info wide" onclick="resetToken()">Reset Token</button>
                             </div>
                         </div>
                         <div id="step2">
                             <div id="step2-select">
-                                <h4>Step 2</h4>
+                                <h4 class="orange">Step 2</h4>
                                 <p>
                                     Select a device to control
                                 </p>
@@ -107,14 +181,14 @@
                                 </div>
                             </div>
                             <div id="step2-selected" style="display:none" class="wide">
-                                <h4>Step 2</h4>
+                                <h4 class="orange">Step 2</h4>
                                 <p>Device has been selected</p>
                                 <button class="btn btn-outline-warning wide" onclick="guiChooseDevice()">Change Device</button>
                             </div>
                         </div>
                         <div id="step3">
                             <div id="step3-test" class="wide">
-                                <h4>Step 3</h4>
+                                <h4 class="orange">Step 3</h4>
                                 <p>
                                     Test the device can be controlled
                                 </p>
@@ -124,9 +198,11 @@
                     </div>
                 </div>
             </div>
+        <% } %>
         </div>
     </div>
 </div>
 <script src="/js/tplink/tplink.js"></script>
+<script src="/js/abv.js"></script>
 
 <% include ./partials/foot %>

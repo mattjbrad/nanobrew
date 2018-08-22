@@ -9,35 +9,82 @@
             </div>
         </header>
     <div class="row">
-        <div class="col-lg-6">
-            <div class="brew-form brewDetails">
-                <h3>
-                    Brew Details
-                </h3>
-                <form>
-                    <div class="form-group">
-                        <label for="name">Brew Name</label>
-                        <input type="text" class="form-control" name="name" id="name" aria-describedby="name" readonly value="<%=brew.name%>">
-                    </div>
-                    <div class="form-group">
-                        <label for="min">Temperature Range</label>
+        <div class="col-12">
+            <div class="brew-form brewDetails wide">
+                <% if (!user || !brew.creator.id.equals(user._id)) { %><fieldset disabled> <% } %>
+                    <form>
                         <div class="row">
-                            <input type="number" readonly class="form-control form-half" name="minTemp" id="min" value="<%=brew.minTemp%>" step="0.25">
-                            <input type="number" readonly class="form-control form-half" name="maxTemp" id="max" value="<%=brew.maxTemp%>" step="0.25">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="topic">Topic</label>
-                        <input class="form-control" readonly type="text" name="topic" value="<%=brew.topic%>">
-                    </div>
-                    <div class="form-group">
-                        <label for="created">Created on</label>
-                        <input class="form-control" readonly type="text" readonly value="<%=new moment(brew.created).format('H:mm, MMMM Do YYYY')%>">
-                    </div>
-                    <div style="display: inline-block">
-                </form>
-                <a href="/archive/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
+                            <div class="col-md-4">
+                                <h4 class="orange">Brew Details</h4>
+                                <div class="form-group">
+                                    <label for="name">Brew Name</label>
+                                    <input type="text" class="form-control form-control-sm" name="name" id="name" aria-describedby="name" readonly value="<%=brew.name%>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="min">Temperature Range</label>
+                                    <div class="row">
+                                        <input type="number" readonly class="form-control form-half form-control-sm" name="minTemp" id="min" value="<%=brew.minTemp%>" step="0.25">
+                                        <input type="number" readonly class="form-control form-half form-control-sm" name="maxTemp" id="max" value="<%=brew.maxTemp%>" step="0.25">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="topic">Topic</label>
+                                    <input class="form-control form-control-sm" readonly type="text" name="topic" value="<%=brew.topic%>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="created">Created on</label>
+                                    <input class="form-control form-control-sm" readonly type="text" readonly value="<%=new moment(brew.created).format('H:mm, MMMM Do YYYY')%>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="creator">Created by</label>
+                                    <input class="form-control form-control-sm" style="text-transform: capitalize" readonly type="text" readonly value="<%= brew.creator.username %>">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4 class="orange">Gravity Readings</h3>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="form-half" for="og">Original Gravity</label>
+                                        <label class="form-half" for="fg">Final Gravity</label>
+                                    </div>
+                                    <div class="row">
+                                        <input type="number" class="form-control form-half form-control-sm" name="og" id="og" value="1.050" step="0.001" value="<%=brew.og%>">
+                                        <input type="number" class="form-control form-half form-control-sm" name="fg" id="fg" value="1.010" step="0.001" value="<%=brew.fg%>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="abv">ABV%</label>
+                                    <input type="text" class="form-control form-control-sm" name="abv" id="abv" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h4 class="orange">Recipe</h3>
+                                <div class="form-group">
+                                    <label for="size">Boil Size (Litres)</label>
+                                    <input type="number" class="form-control form-control-sm" name="ingredients.size" id="size" value="<%=brew.ingredients.size%>">
+                                </div>
+                                <div class="form-group">
+                                    <label for="malt">Malt Bill</label>
+                                    <textarea class="form-control form-control-sm" rows="4" cols="40" name="ingredients.malt" id="malt" readonly><%=brew.ingredients.malt%></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="malt">Hop Schedule</label>
+                                    <textarea class="form-control form-control-sm" rows="4" cols="40" name="ingredients.hops" id="hops" readonly><%=brew.ingredients.hops%></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="yeast">Yeast</label>
+                                    <input type="text" class="form-control form-control-sm" name="ingredients.yeast" id="yeast" value="<%=brew.ingredients.yeast%>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="other">Other Ingredients</label>
+                                    <textarea readonly class="form-control form-control-sm" rows="4" cols="40" name="ingredients.other" id="other"><%=brew.ingredients.other%></textarea>
+                                </div>
+                            </div>
+                        <div style="display: inline-block">
+                    </form>
+                <% if (!user || !brew.creator.id.equals(user._id)) { %></fieldset> <% } %>
                     <form id="delete-form" action="/archive/<%=brew._id %>/?_method=DELETE" method="POST">
+                        <a href="/archive/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
                         <a>
                             <button type="submit" class="btn btn-outline-danger">
                                 <i class="fas fa-trash-alt"></i>

@@ -13,7 +13,7 @@
         <div class="row text-center">
             <% brews.forEach((brew) => { %>
                 <div class="col-md-6 brewBox">
-                    <div class="brewDetails">
+                    <div class="brewDetails brew narrow">
                         <a href="/brews/<%= brew.id%>" class="brewLink">
                             <%= brew.name %>
                         </a>
@@ -32,7 +32,7 @@
                         <a href="/brews/<%=brew.id%>/graph" class="btn btn-outline-light">
                             <i class="fas fa-chart-line"></i>
                         </a>
-                        <% if(user && brew.creator.id.equals(user._id)) { %>
+                        <% if(user && brew.creator && brew.creator.id.equals(user._id)) { %>
                             <a href="/brews/<%=brew.id%>/stop" class="btn btn-outline-warning">
                                 <i class="fas fa-ban"></i>
                             </a>

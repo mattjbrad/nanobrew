@@ -138,16 +138,30 @@ p{
     margin-bottom : 15px;
 }
 
+.wide {
+    min-width: 100%;
+}
+
+.brew {
+    max-width: 350px;
+}
+
+.orange {
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.7);
+    color: #ff8000;
+    margin-bottom: 15px;
+}
+
 .brewDetails{    
     border: rgba(102, 204, 255, 0.3);
     border-style: solid;
     border-width: 2px;
     border-radius: 10px;
-    max-width: 300px;
-    margin:auto;
+    margin: 10px auto;
     padding:10px;
     box-shadow: 4px 4px 3px rgba(0,0,0,0.7);
     background-color: rgba(57, 72, 96, 0.1);
+    max-width: 500px;
 }
 
 .row{
@@ -193,14 +207,9 @@ p{
     font-weight:700;
 }
 
-div.brew-form{
-    max-width: 500px;
-    margin: 10px auto;
-}
-
-input.form-half{
-    width:45%;
-    margin: auto;
+.form-half{
+    width: 41%;
+    margin: 5px auto;
 }
 
 .scroll { 
@@ -249,11 +258,12 @@ img.image {
     font-size: 0.6rem;
 }
 
-p.blurb a {
+p a {
     color: white;
+    text-decoration: underline;
 }
 
-p.blurb a:hover {
+p a:hover {
    color: #30839f
 }
 
