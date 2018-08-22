@@ -4,12 +4,13 @@ let Brew = require('../models/brew');
 let uuidv4 = require('uuid/v4');
 let needle = require('needle');
 
+let middleware = require('../middleware');
 const tpLinkUrl = 'https://wap.tplinkcloud.com';
 const options = {
     headers: { 'Content-Type': 'application/json' }
 };
 
-router.post('/brews/:brewId/login', (req, res) => {
+router.post('/brews/:id/login', middleware.checkOwnership, (req, res) => {
     let requestBody = {
         method: "login",
         params: {
@@ -26,13 +27,13 @@ router.post('/brews/:brewId/login', (req, res) => {
                 if (result.statusCode === 200){
                     var jsonResponse = JSON.parse(result.body);
                     let token = { token : jsonResponse.result.token };
-                    Brew.findByIdAndUpdate(req.params.brewId, token, (err, brew) => {
+                    Brew.findByIdAndUpdate(req.params.id, token, (err, brew) => {
                         if (err) {
                             console.log(err);
                             res.send('Something went wrong logging in, try again please');
                         } else {
                             brew.save();
-                            res.send(token);                        
+                            res.send(!!token);                        
                         }
                     });
                 }
@@ -40,9 +41,9 @@ router.post('/brews/:brewId/login', (req, res) => {
     }
 });
 
-router.get('/brews/:brewId/devices', (req, res) => {
+router.get('/brews/:id/devices', middleware.checkOwnership, (req, res) => {
     let requestBody = {method:'getDeviceList'};
-    Brew.findById(req.params.brewId, (err, brew) => {
+    Brew.findById(req.params.id, (err, brew) => {
         if (err) {
             console.log(err);
             res.send('something went wrong');
@@ -71,8 +72,8 @@ router.get('/brews/:brewId/devices', (req, res) => {
     });
 });
 
-router.get('/brews/:brewId/devices/reset', (req, res) => {
-    Brew.findByIdAndUpdate(req.params.brewId, {
+router.get('/brews/:id/devices/reset', middleware.checkOwnership, (req, res) => {
+    Brew.findByIdAndUpdate(req.params.id, {
         token : '',
         deviceId:''
     }, (err, brew) => {
@@ -80,22 +81,34 @@ router.get('/brews/:brewId/devices/reset', (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            console.log(brew);
-            res.send(brew);
+            res.send(cleanObj(brew));
         }
     });
 });
 
-router.put('/brews/:brewId/devices', (req, res) => {
-    Brew.findByIdAndUpdate(req.params.brewId, req.body, (err, brew) => {
+router.put('/brews/:id/devices', middleware.checkOwnership, (req, res) => {
+    Brew.findByIdAndUpdate(req.params.id, req.body, (err, brew) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            console.log(brew);
-            res.send(brew);
+            res.send(cleanObj(brew));
         }
     });
 });
+
+cleanObj = (brew) => {
+    let cleanBrew = {
+        creator: brew.creator,
+        created: brew.created,
+        readings: brew.readings,
+        _id: brew['_id'],
+        name: brew.name,
+        minTemp: brew.minTemp,
+        maxTemp: brew.maxTemp,
+        topic: brew.topic
+    };
+    return cleanBrew;
+};
 
 module.exports = router;

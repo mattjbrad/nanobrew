@@ -4,9 +4,10 @@ let moment = require('moment');
 
 let Brew = require('../models/brew');
 let Reading = require('../models/reading');
+let middleware = require('../middleware');
 
-router.get('/brews/:brewId/graph/reading',  (req, res) => {
-    Brew.findOne({_id:req.params.brewId}).populate(
+router.get('/brews/:id/graph/reading',  (req, res) => {
+    Brew.findOne({_id:req.params.id}).populate(
         {path:'readings', 
             match: 
             { time : 
@@ -17,13 +18,13 @@ router.get('/brews/:brewId/graph/reading',  (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.send(brew);
+            res.send(cleanObj(brew));
         }
     });
 });
 
-router.get('/archive/:brewId/graph/reading', (req, res) => {
-    Brew.findOne({_id:req.params.brewId}).populate(
+router.get('/archive/:id/graph/reading', (req, res) => {
+    Brew.findOne({_id:req.params.id}).populate(
         {path:'readings', 
             match : {
                 $and : [
@@ -40,13 +41,13 @@ router.get('/archive/:brewId/graph/reading', (req, res) => {
             console.log(err);
             res.send("Something went wrong");
         } else {
-            res.send(brew);
+            res.send(cleanObj(brew));
         }
     });
 });
 
-router.post('/:brew/:brewId/reading', (req, res) => {
-    Brew.findById(req.params.brewId, (err, brew) => {
+router.post('/brews/:id/reading', middleware.checkOwnership, (req, res) => {
+    Brew.findById(req.params.id, (err, brew) => {
         if (err) {
             console.log(err);
             res.send("Something went wrong");
@@ -65,7 +66,7 @@ router.post('/:brew/:brewId/reading', (req, res) => {
     })
 });
 
-router.get('/brews/:brewId/reading/:readingId', (req, res) => {
+router.get('/brews/:id/reading/:readingId', (req, res) => {
     Reading.findById(req.params.readingId, (err, reading) => {
         if (err) {
             console.log(err);
@@ -97,5 +98,20 @@ router.get('/brews/:brewId/reading/:readingId', (req, res) => {
 //         }
 //     });
 // });
+
+cleanObj = (brew) => {
+    let cleanBrew = {
+        creator: brew.creator,
+        created: brew.created,
+        readings: brew.readings,
+        _id: brew['_id'],
+        name: brew.name,
+        minTemp: brew.minTemp,
+        maxTemp: brew.maxTemp,
+        topic: brew.topic
+    };
+    return cleanBrew;
+};
+
 
 module.exports = router;

@@ -41,11 +41,11 @@ router.get("/logout", (req, res) => {
 });
 
 router.post("/login", passport.authenticate("local", {
-    successRedirect: "/brews",
-     failureRedirect:"/login"
-    }), (req, res) => {
-    
-});
+        successRedirect: "/brews",
+        failureRedirect:"/login", 
+        failureFlash: 'Invalid username or password'
+    })
+);
 
 router.get("*", (req, res)=>{
     res.render("404");
