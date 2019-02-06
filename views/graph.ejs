@@ -14,7 +14,7 @@
         </header>
         <div class="row text-center">
             <div class="col-lg-8">
-                <canvas id="tempChart" width="300" height="250"></canvas>
+                <canvas class="chart" id="tempChart" width="300" height="250"></canvas>
             </div>
             <div class="col-lg-4">
                 <div class="brew-form brewDetails">
@@ -26,7 +26,8 @@
                     </p>
                     <input id="date-range" type="range" min="1" max="24" step="1" value="24">
                 </div>
-                <div class="brew-form brewDetails">
+                <% if(user && creator && creator.equals(user._id)) { %>
+                    <div class="brew-form brewDetails">
                         <h3>
                             Simulate
                         </h3>
@@ -38,6 +39,7 @@
                             <button class="btn btn-outline-primary" onclick="simReading()">Send</button>
                         </div>
                     </div>
+                <% } %>
             </div>
         </div>
     </div>

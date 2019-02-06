@@ -18,11 +18,12 @@ server.on('ready', ()=>{
 
 server.on('clientConnected', function(client) {
     //prevent connections from other devices
-    if (client.id!==clientSettings.id || client.id!==clientSettings.webid){
+    if (client.id===clientSettings.id || client.id===clientSettings.webid){
+        console.log('client connected', client.id);
+    } else {
         console.log('closing client', client.id, client);
         client.close();
     }
-    console.log('client connected', client.id);
 });
 
 server.on('published', (packet, client) => {

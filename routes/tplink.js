@@ -24,9 +24,9 @@ router.post('/brews/:id/login', middleware.checkOwnership, (req, res) => {
     if(requestBody.params.cloudUserName && requestBody.params.cloudPassword){  
         needle.post(tpLinkUrl, requestBody , options,
             (err, result) => {
+                console.log(result.body.result.token);
                 if (result.statusCode === 200){
-                    var jsonResponse = JSON.parse(result.body);
-                    let token = { token : jsonResponse.result.token };
+                    let token = { token : result.body.result.token };
                     Brew.findByIdAndUpdate(req.params.id, token, (err, brew) => {
                         if (err) {
                             console.log(err);
@@ -41,6 +41,30 @@ router.post('/brews/:id/login', middleware.checkOwnership, (req, res) => {
     }
 });
 
+router.post('/brews/:id/token', (req, res) => {
+    let newToken = {token: req.body.token};
+    Brew.findByIdAndUpdate(req.params.id, newToken, (err) => {
+        if (err) {
+            console.log(err);
+            res.send('something went wrong');
+        } else {
+            res.send({result:'success', token: newToken.token});
+        }
+    });
+});
+
+router.post('/brews/:id/device', (req, res) => {
+    let newDevice = {deviceId: req.body.deviceId};
+    Brew.findByIdAndUpdate(req.params.id, newDevice, (err) => {
+        if (err) {
+            console.log(err);
+            res.send('something went wrong');
+        } else {
+            res.send({result:'success', deviceId: newDevice.deviceId});
+        }
+    });
+});
+
 router.get('/brews/:id/devices', middleware.checkOwnership, (req, res) => {
     let requestBody = {method:'getDeviceList'};
     Brew.findById(req.params.id, (err, brew) => {
@@ -53,10 +77,7 @@ router.get('/brews/:id/devices', middleware.checkOwnership, (req, res) => {
                     console.log(err);
                     res.send('Something went wrong');
                 } else {
-                    console.log(result.body);
-                    let jsonResponse = JSON.parse(result.body);
-                    console.log(jsonResponse);
-                    let devices = jsonResponse.result.deviceList;
+                    let devices = result.body.result.deviceList;
                     var data = [];
                     devices.forEach((device) => {
                         data.push({

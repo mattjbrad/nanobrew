@@ -51,7 +51,16 @@ router.post('/brews', middleware.isLoggedIn, (req, res) => {
 });
 
 router.get('/brews/:id/graph', (req, res) => {
-    res.render('graph');
+    Brew.findById(req.params.id, (err, brew) => {
+        if (err) {
+            console.log(err);
+            req.flash('error', 'Something went wrong getting the brew graph');
+            res.redirect(`/brews/${req.params.id}`);
+        } else {
+            res.render('graph', {creator: brew.creator.id});
+        }
+    });
+    
 });
 
 router.put('/brews/:id', middleware.checkOwnership, (req, res) => {

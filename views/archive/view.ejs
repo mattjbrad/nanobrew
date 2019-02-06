@@ -80,18 +80,18 @@
                                     <textarea readonly class="form-control form-control-sm" rows="4" cols="40" name="ingredients.other" id="other"><%=brew.ingredients.other%></textarea>
                                 </div>
                             </div>
-                        <div style="display: inline-block">
                     </form>
                 <% if (!user || !brew.creator.id.equals(user._id)) { %></fieldset> <% } %>
+                <div class="control-buttons">
+                    <a href="/archive/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
+                    <% if (user && brew.creator.id.equals(user._id)) { %>
                     <form id="delete-form" action="/archive/<%=brew._id %>/?_method=DELETE" method="POST">
-                        <a href="/archive/<%=brew.id%>/graph" class="btn btn-outline-light"><i class="fas fa-chart-line"></i></a>
-                        <a>
                             <button type="submit" class="btn btn-outline-danger">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
-                        </a>
-                    </div>
                     </form>
+                    <% } %>
+                </div>
                 </div>
             </div>
         </div>
