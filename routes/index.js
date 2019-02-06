@@ -15,20 +15,20 @@ router.get("/register", (req, res) => {
     res.render('register');
 });
 
-router.post("/register", (req, res) => {
-    const newUser = new User({username: req.body.username});
-    User.register(newUser, req.body.password, (err, user) => {
-        if(err){
-            console.log(err);
-            req.flash('error', 'Sorry someone with that username already exists');
-            return res.redirect("/register");
-        }
-        passport.authenticate("local")(req, res, () => {
-            req.flash('success', 'You have now been registered');
-            res.redirect("/brews"); 
-        });
-    });
-});
+// router.post("/register", (req, res) => {
+//     const newUser = new User({username: req.body.username});
+//     User.register(newUser, req.body.password, (err, user) => {
+//         if(err){
+//             console.log(err);
+//             req.flash('error', 'Sorry someone with that username already exists');
+//             return res.redirect("/register");
+//         }
+//         passport.authenticate("local")(req, res, () => {
+//             req.flash('success', 'You have now been registered');
+//             res.redirect("/brews"); 
+//         });
+//     });
+// });
 
 router.get("/login", (req, res) => {
     res.render('login');

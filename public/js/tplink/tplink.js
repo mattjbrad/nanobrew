@@ -39,6 +39,7 @@ getDevices = function(){
     
         $.get(request, function(data){
             if (data){
+                console.log(data);
                 for (var i = 0; i<data.length ; i++){
                     var listItem = $("<option></option>").text(data[i].alias).attr("value", data[i].deviceId);
                     $('#devices').append(listItem);
